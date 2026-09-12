@@ -1,0 +1,104 @@
+// Prisma schema for GlamourGrid — MySQL
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model Category {
+  id          Int        @id @default(autoincrement())
+  name        String
+  slug        String     @unique
+  description String?    @db.Text
+  imageUrl    String?
+  parentId    Int?
+  parent      Category?  @relation("SubCategories", fields: [parentId], references: [id])
+  children    Category[] @relation("SubCategories")
+  products    Product[]
+  createdAt   DateTime   @default(now())
+}
+
+model Product {
+  id           Int       @id @default(autoincrement())
+  name         String
+  slug         String    @unique
+  description  String?   @db.Text
+  price        Float
+  salePrice    Float?
+  imageUrl     String?   @db.Text
+  videoUrl     String?
+  brand        String?
+  categoryId   Int?
+  category     Category? @relation(fields: [categoryId], references: [id])
+  isActive     Boolean   @default(true)
+  isNewArrival Boolean   @default(false)
+  isBestSeller Boolean   @default(false)
+  isSale       Boolean   @default(false)
+  stock        Int       @default(100)
+  colors       Json?     // Array of { name: string, hex: string, inStock?: boolean }
+  keywords     String?   // SEO tags / search keywords comma-separated
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Order {
+  id            Int         @id @default(autoincrement())
+  orderRef      String      @unique
+  customerName  String
+  phone         String
+  address       String      @db.Text
+  city          String      @default("N/A")
+  paymentMethod String      @default("cod") // 'cod' | 'bank'
+  status        OrderStatus @default(PENDING)
+  total         Float
+  items         Json        // JSON array of { id, name, price, quantity, image, selectedColor }
+  replaceReason String?
+  complaints    Complaint[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  PLACED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  RETURNED
+  REPLACE_REQUESTED
+  RETURN_REQUESTED
+  CANCELLED
+}
+
+model Complaint {
+  id            Int             @id @default(autoincrement())
+  orderId       Int?
+  order         Order?          @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  customerEmail String
+  customerName  String?
+  message       String          @db.Text
+  status        ComplaintStatus @default(OPEN)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+enum ComplaintStatus {
+  OPEN
+  RESOLVED
+}
