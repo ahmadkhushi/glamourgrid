@@ -30,8 +30,9 @@ export async function POST(request: NextRequest) {
     const { phone, address, city, paymentMethod, total, items } = body;
 
     if (!customerName || !phone || !address || !city || !paymentMethod || total === undefined || !items) {
-      return NextResponse.json({ error: 'Saari details zaruri hain.' }, { status: 400 });
+      return NextResponse.json({ error: 'All fields are required.' }, { status: 400 });
     }
+
 
     const orderRef = body.id || `GG-${Date.now()}`;
 

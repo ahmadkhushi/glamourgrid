@@ -28,8 +28,9 @@ export default function MakeupSubPageClient({
     <>
       {products.length === 0 ? (
         <div className="text-center py-20">
-          <p className="text-[#a89f91] text-lg mb-4">Abhi {subName} mein koi products nahi hain.</p>
-          <p className="text-[#a89f91]/60 text-sm">Admin se products add karwayein ya admin panel se add karein.</p>
+          <p className="text-[#a89f91] text-lg mb-4">There are currently no products in {subName}.</p>
+          <p className="text-[#a89f91]/60 text-sm">Please add products via the admin panel.</p>
+
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

@@ -39,11 +39,12 @@ export default function AdminProductsTable({ products }: AdminProductsTableProps
             {products.length === 0 && (
               <tr>
                 <td colSpan={7} className="px-6 py-16 text-center text-[#a89f91] text-sm">
-                  Koi products nahi hain.{' '}
+                  No products found.{' '}
                   <a href="/admin/products/new" className="text-[#d4af37] hover:underline">
-                    Add karein →
+                    Add product →
                   </a>
                 </td>
+
               </tr>
             )}
           </tbody>

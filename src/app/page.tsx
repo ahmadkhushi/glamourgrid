@@ -181,9 +181,10 @@ export default function Home() {
       setAdmin(!isAdmin);
       setShowAdminModal(false);
     } else {
-      setAdminError("Galat password. Dobara try karein.");
+      setAdminError("Incorrect password. Please try again.");
     }
   };
+
 
   const handleAddToCart = (product: Product) => {
     addItem({
@@ -436,12 +437,13 @@ export default function Home() {
               {isAdmin ? "Admin Mode Deactivate?" : "Admin Access"}
             </h2>
             <p className="text-[#a89f91] text-xs text-center mb-6 tracking-wider">
-              {isAdmin ? "Aap admin mode mein hain. Deactivate karne ke liye confirm karein." : "Admin access ke liye password daalein."}
+              {isAdmin ? "You are in admin mode. Confirm to deactivate." : "Enter password for admin access."}
             </p>
             <form onSubmit={handleAdminSubmit} className="flex flex-col gap-4">
               <input
                 type="password"
-                placeholder="Password daalein..."
+                placeholder="Enter password..."
+
                 value={adminInput}
                 onChange={(e) => { setAdminInput(e.target.value); setAdminError(""); }}
                 className="bg-[#0f0c08] border border-[#2a2018] text-[#FDFBF7] px-4 py-3 text-sm w-full focus:outline-none focus:border-[#d4af37]/50"

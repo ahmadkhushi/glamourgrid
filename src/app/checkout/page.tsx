@@ -29,13 +29,14 @@ export default function CheckoutPage() {
 
   const validate = () => {
     const e: Record<string, string> = {};
-    if (!form.name.trim()) e.name = "Naam zaruri hai";
-    if (!form.phone.trim() || !/^03\d{9}$/.test(form.phone)) e.phone = "Valid phone number daalein (03XXXXXXXXX)";
-    if (!form.address.trim()) e.address = "Address zaruri hai";
-    if (!form.city.trim()) e.city = "City zaruri hai";
+    if (!form.name.trim()) e.name = "Full Name is required";
+    if (!form.phone.trim() || !/^03\d{9}$/.test(form.phone)) e.phone = "Please enter a valid phone number (03XXXXXXXXX)";
+    if (!form.address.trim()) e.address = "Address is required";
+    if (!form.city.trim()) e.city = "City is required";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
+
 
   const handlePlace = async () => {
     if (!validate()) return;
@@ -101,8 +102,8 @@ export default function CheckoutPage() {
     return (
       <div className="pt-28 min-h-screen bg-[#0f0c08] flex items-center justify-center">
         <div className="text-center">
-          <p className="text-[#a89f91] mb-4">Cart khali hai.</p>
-          <Link href="/shop" className="text-[#d4af37] underline">Shop karo</Link>
+          <p className="text-[#a89f91] mb-4">Your cart is empty.</p>
+          <Link href="/shop" className="text-[#d4af37] underline">Start Shopping</Link>
         </div>
       </div>
     );
@@ -142,7 +143,7 @@ export default function CheckoutPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
                 {/* Name */}
                 <div>
-                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#a89f91] mb-2">Poora Naam *</label>
+                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#a89f91] mb-2">Full Name *</label>
                   <input
                     type="text"
                     value={form.name}
@@ -186,7 +187,7 @@ export default function CheckoutPage() {
                     rows={3}
                     value={form.address}
                     onChange={(e) => setForm({ ...form, address: e.target.value })}
-                    placeholder="Ghar / flat number, street, area..."
+                    placeholder="House / flat number, street, area..."
                     className="w-full bg-[#0f0c08] border border-[#2a2018] text-[#FDFBF7] px-4 py-3 text-sm focus:outline-none focus:border-[#d4af37]/50 resize-none placeholder:text-[#a89f91]/40"
                   />
                   {errors.address && <p className="text-red-400 text-xs mt-1">{errors.address}</p>}
@@ -210,7 +211,7 @@ export default function CheckoutPage() {
                   />
                   <div>
                     <p className="text-[#FDFBF7] text-sm font-semibold">Cash on Delivery</p>
-                    <p className="text-[#a89f91] text-xs mt-1">Delivery ke waqt cash dein. Pakistan mein available.</p>
+                    <p className="text-[#a89f91] text-xs mt-1">Pay cash upon delivery. Available nationwide across Pakistan.</p>
                   </div>
                 </label>
 
@@ -228,7 +229,7 @@ export default function CheckoutPage() {
                   />
                   <div>
                     <p className="text-[#FDFBF7] text-sm font-semibold">Bank / JazzCash / EasyPaisa</p>
-                    <p className="text-[#a89f91] text-xs mt-1">Order place ke baad account details share ki jaengi.</p>
+                    <p className="text-[#a89f91] text-xs mt-1">Account details will be shared after placing the order.</p>
                   </div>
                 </label>
               </div>
@@ -239,7 +240,7 @@ export default function CheckoutPage() {
                   <p>Account Name: <span className="text-[#FDFBF7]">GlamourGrid Pvt</span></p>
                   <p>JazzCash: <span className="text-[#FDFBF7]">0300-1234567</span></p>
                   <p>EasyPaisa: <span className="text-[#FDFBF7]">0300-1234567</span></p>
-                  <p className="mt-2 text-xs text-[#a89f91]/70">Receipt whatsapp karein: 0300-1234567</p>
+                  <p className="mt-2 text-xs text-[#a89f91]/70">Send payment receipt via WhatsApp: 0300-1234567</p>
                 </div>
               )}
 
@@ -248,8 +249,9 @@ export default function CheckoutPage() {
                 disabled={placing}
                 className="w-full bg-[#d4af37] text-[#0f0c08] py-4 font-semibold tracking-widest uppercase hover:bg-[#e8c84a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
               >
-                {placing ? "Order Place Ho Raha Hai..." : "Order Place Karein →"}
+                {placing ? "Placing Order..." : "Place Order →"}
               </button>
+
             </div>
           </div>
 

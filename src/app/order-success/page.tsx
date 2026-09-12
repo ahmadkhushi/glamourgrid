@@ -27,7 +27,7 @@ function OrderSuccessContent() {
           Order Confirmed!
         </h1>
         <p className="text-xs uppercase tracking-[0.2em] text-[#a89f91] mb-6">
-          Shukriya! Aapka order kamyabi se place ho gaya hai.
+          Thank you! Your order has been placed successfully.
         </p>
 
         {/* Order Reference Box */}
@@ -41,8 +41,9 @@ function OrderSuccessContent() {
         </div>
 
         <p className="text-xs text-[#a89f91] leading-relaxed mb-8 max-w-md mx-auto">
-          Humne aapka order receive kar liya hai. Delivery team jald hi aap se contact karegi. Delivery timeframe 2-4 working days hai.
+          We have received your order. Our delivery team will contact you shortly. Estimated delivery timeframe is 2-4 working days.
         </p>
+
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

@@ -14,7 +14,7 @@ export async function loginAction(prevState: { error: string } | null, formData:
   const password = formData.get('password') as string;
 
   if (!email || !password) {
-    return { error: 'Email aur password daalein.' };
+    return { error: 'Please enter email and password.' };
   }
 
   // ── Hardcoded fallback (works even if DB is offline) ──────
@@ -22,7 +22,7 @@ export async function loginAction(prevState: { error: string } | null, formData:
     try {
       await createSession(0, 'ADMIN');
     } catch {
-      return { error: 'Session create karne mein error.' };
+      return { error: 'Failed to create session.' };
     }
     redirect('/admin');
   }
@@ -30,17 +30,18 @@ export async function loginAction(prevState: { error: string } | null, formData:
   // ── DB-based auth ─────────────────────────────────────────
   try {
     const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) return { error: 'Email ya password galat hai.' };
+    if (!user) return { error: 'Incorrect email or password.' };
 
     const valid = await bcrypt.compare(password, user.passwordHash);
-    if (!valid) return { error: 'Email ya password galat hai.' };
+    if (!valid) return { error: 'Incorrect email or password.' };
 
-    if (user.role !== 'ADMIN') return { error: 'Admin access sirf admins ke liye hai.' };
+    if (user.role !== 'ADMIN') return { error: 'Admin access is restricted to administrators.' };
 
     await createSession(user.id, user.role);
   } catch {
-    return { error: 'Server error. Dobara try karein.' };
+    return { error: 'Server error. Please try again.' };
   }
+
 
   redirect('/admin');
 }

@@ -69,9 +69,10 @@ export default function Navbar() {
       setAdmin(!isAdmin);
       setShowAdminModal(false);
     } else {
-      setAdminError("Galat password. Dobara try karein.");
+      setAdminError("Incorrect password. Please try again.");
     }
   };
+
 
   return (
     <>
@@ -301,13 +302,14 @@ export default function Navbar() {
             </h2>
             <p className="text-[#a89f91] text-xs text-center mb-6 tracking-wider">
               {isAdmin
-                ? "Aap admin mode mein hain. Password daalein to deactivate karein."
-                : "Admin panel access ke liye password daalein."}
+                ? "You are in admin mode. Enter password to deactivate."
+                : "Enter password to access admin panel."}
             </p>
             <form onSubmit={handleAdminSubmit} className="flex flex-col gap-4">
               <input
                 type="password"
-                placeholder="Password daalein..."
+                placeholder="Enter password..."
+
                 value={adminInput}
                 onChange={(e) => { setAdminInput(e.target.value); setAdminError(""); }}
                 className="bg-[#0f0c08] border border-[#2a2018] text-[#FDFBF7] px-4 py-3 text-sm w-full focus:outline-none focus:border-[#d4af37]/50"

@@ -37,12 +37,12 @@ export default function CartPage() {
 
         {items.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-[#a89f91] mb-6 text-lg">Aapka cart khali hai.</p>
+            <p className="text-[#a89f91] mb-6 text-lg">Your cart is empty.</p>
             <Link
               href="/shop"
               className="bg-[#d4af37] text-[#0f0c08] px-8 py-4 font-semibold tracking-widest uppercase hover:bg-[#e8c84a] transition-all inline-block"
             >
-              Shopping Jari Rakhein
+              Continue Shopping
             </Link>
           </div>
         ) : (
@@ -77,7 +77,7 @@ export default function CartPage() {
                           onClick={() => removeItem(item.id)}
                           className="text-sm text-[#a89f91] hover:text-red-400 transition-colors uppercase tracking-widest"
                         >
-                          Hatao
+                          Remove
                         </button>
                       </div>
                     </div>
@@ -111,18 +111,19 @@ export default function CartPage() {
                   href="/checkout"
                   className="block text-center bg-[#d4af37] text-[#0f0c08] px-8 py-4 font-semibold tracking-widest uppercase hover:bg-[#e8c84a] transition-all"
                 >
-                  Checkout Proceed Karein →
+                  Proceed to Checkout →
                 </Link>
                 <Link
                   href="/shop"
                   className="block text-center text-[#a89f91] text-xs uppercase tracking-widest mt-4 hover:text-[#d4af37] transition-colors"
                 >
-                  ← Shopping Jari Rakhein
+                  ← Continue Shopping
                 </Link>
               </div>
             </div>
           </div>
         )}
+
       </div>
     </div>
   );

@@ -54,9 +54,10 @@ export default function NewProductPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.price || !form.slug) {
-      setError('Name, slug aur price zaruri hain.');
+      setError('Name, slug, and price are required.');
       return;
     }
+
     setSaving(true);
     setError('');
     const res = await fetch(getApiUrl('/api/products'), {
