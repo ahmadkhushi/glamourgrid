@@ -71,8 +71,9 @@ export default async function AdminOrdersPage() {
               );
             })}
             {orders.length === 0 && (
-              <tr><td colSpan={10} className="px-6 py-12 text-center text-[#a89f91]">Koi orders nahi hain abhi tak.</td></tr>
+              <tr><td colSpan={10} className="px-6 py-12 text-center text-[#a89f91]">No orders found yet.</td></tr>
             )}
+
           </tbody>
         </table>
       </div>
