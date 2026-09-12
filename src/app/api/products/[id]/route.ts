@@ -1,8 +1,37 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/session';
 
 const db = prisma as any;
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const numericId = parseInt(id);
+
+    const product = await db.product.findFirst({
+      where: !isNaN(numericId)
+        ? { OR: [{ id: numericId }, { slug: id }] }
+        : { slug: id },
+      include: { category: true },
+    });
+
+    if (!product) {
+      return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+    }
+
+    return NextResponse.json(product);
+  } catch (error: any) {
+    console.error('Fetch product error:', error);
+    return NextResponse.json({ error: 'Failed to fetch product', details: error?.message }, { status: 500 });
+  }
+}
+
 
 export async function PATCH(
   request: NextRequest,
