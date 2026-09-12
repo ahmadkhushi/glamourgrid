@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { getApiUrl } from '@/lib/api';
 
 const STATUSES = [
   'PENDING',
@@ -27,7 +28,7 @@ export default function OrderStatusUpdater({
   const handleChange = async (newStatus: string) => {
     setSaving(true);
     try {
-      await fetch(`/api/orders/${orderId}`, {
+      await fetch(getApiUrl(`/api/orders/${orderId}`), {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),

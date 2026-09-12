@@ -3,6 +3,8 @@
 import { useState, useTransition } from 'react';
 import { Pencil, Trash2, ToggleLeft, ToggleRight, Check, X, Tag, Edit3 } from 'lucide-react';
 
+import { getApiUrl } from '@/lib/api';
+
 export interface ProductData {
   id: number;
   name: string;
@@ -36,7 +38,7 @@ export default function AdminProductRow({ product, onEditClick }: AdminProductRo
   const flash = (m: string) => { setMsg(m); setTimeout(() => setMsg(''), 2000); };
 
   const patchProduct = async (body: Record<string, unknown>) => {
-    const res = await fetch(`/api/products/${productData.id}`, {
+    const res = await fetch(getApiUrl(`/api/products/${productData.id}`), {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
@@ -87,7 +89,7 @@ export default function AdminProductRow({ product, onEditClick }: AdminProductRo
   const deleteProduct = () => {
     if (!confirm(`Delete "${productData.name}"?`)) return;
     startTransition(async () => {
-      const res = await fetch(`/api/products/${productData.id}`, { method: 'DELETE' });
+      const res = await fetch(getApiUrl(`/api/products/${productData.id}`), { method: 'DELETE' });
       if (res.ok) window.location.reload();
     });
   };

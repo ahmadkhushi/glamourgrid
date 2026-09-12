@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { getApiUrl } from '@/lib/api';
 
 export default function AdminProductActions({
   productId,
@@ -15,7 +16,7 @@ export default function AdminProductActions({
 
   const handleSave = async () => {
     setSaving(true);
-    const res = await fetch(`/api/products/${productId}`, {
+    const res = await fetch(getApiUrl(`/api/products/${productId}`), {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ price: parseFloat(price) }),

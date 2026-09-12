@@ -5,6 +5,8 @@ import { useCartStore } from "@/store/cartStore";
 import { useOrderStore } from "@/store/orderStore";
 import Link from "next/link";
 
+import { getApiUrl } from "@/lib/api";
+
 const steps = ["Cart", "Checkout", "Order Placed"];
 
 type PaymentMethod = "cod" | "bank";
@@ -41,7 +43,12 @@ export default function CheckoutPage() {
     setPlacing(true);
 
     const orderPayload = {
-      id: `GG-${Date.now()}`,
+      customerName: form.name.trim(),
+      phone: form.phone.trim(),
+      address: form.address.trim(),
+      city: form.city.trim(),
+      paymentMethod: form.paymentMethod,
+      total,
       items: items.map((i) => ({
         id: String(i.id),
         name: i.name,
@@ -49,19 +56,45 @@ export default function CheckoutPage() {
         quantity: i.quantity ?? 1,
         image: i.image,
       })),
-      total,
-      name: form.name,
-      phone: form.phone,
-      address: form.address,
-      city: form.city,
-      paymentMethod: form.paymentMethod,
-      status: "Placed" as const,
-      placedAt: new Date().toISOString(),
     };
 
-    addOrder(orderPayload);
-    clearCart();
-    router.push(`/order-success?id=${orderPayload.id}`);
+    try {
+      const res = await fetch(getApiUrl('/api/orders'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderPayload),
+      });
+
+      let orderRef = `GG-${Date.now()}`;
+      if (res.ok) {
+        const data = await res.json();
+        orderRef = data.orderRef || orderRef;
+      }
+
+      addOrder({
+        id: orderRef,
+        ...orderPayload,
+        name: form.name,
+        status: 'Placed' as const,
+        placedAt: new Date().toISOString(),
+      });
+      clearCart();
+      router.push(`/order-success?id=${orderRef}`);
+    } catch (err) {
+      console.error('Order submission network error:', err);
+      const fallbackRef = `GG-${Date.now()}`;
+      addOrder({
+        id: fallbackRef,
+        ...orderPayload,
+        name: form.name,
+        status: 'Placed' as const,
+        placedAt: new Date().toISOString(),
+      });
+      clearCart();
+      router.push(`/order-success?id=${fallbackRef}`);
+    } finally {
+      setPlacing(false);
+    }
   };
 
   if (items.length === 0) {

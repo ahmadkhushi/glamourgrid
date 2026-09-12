@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { getApiUrl } from '@/lib/api';
 
 const ALL_CATEGORIES = [
   { slug: 'fragrance',      label: 'Fragrance' },
@@ -58,7 +59,7 @@ export default function NewProductPage() {
     }
     setSaving(true);
     setError('');
-    const res = await fetch('/api/products', {
+    const res = await fetch(getApiUrl('/api/products'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

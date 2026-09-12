@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { X, Plus, Trash2, Check, Sparkles } from 'lucide-react';
 import { parseColors, ColorVariant } from '@/components/ui/ColorSwatches';
+import { getApiUrl } from '@/lib/api';
 
 interface AdminProductEditModalProps {
   product: any;
@@ -62,7 +63,7 @@ export default function AdminProductEditModal({
         colors,
       };
 
-      const res = await fetch(`/api/products/${product.id}`, {
+      const res = await fetch(getApiUrl(`/api/products/${product.id}`), {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

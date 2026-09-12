@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { Pencil, Check, X } from 'lucide-react';
 
+import { getApiUrl } from '@/lib/api';
+
 interface AdminPriceEditProps {
   productId: number | string;
   currentPrice: number;
@@ -18,7 +20,7 @@ export default function AdminPriceEdit({ productId, currentPrice, onPriceUpdate 
     const newPrice = parseFloat(price);
     if (isNaN(newPrice) || newPrice <= 0) return;
     setSaving(true);
-    const res = await fetch(`/api/products/${productId}`, {
+    const res = await fetch(getApiUrl(`/api/products/${productId}`), {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ price: newPrice }),

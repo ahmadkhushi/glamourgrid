@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import OrderStatusUpdater from '../orders/OrderStatusUpdater';
+import { getApiUrl } from '@/lib/api';
 
 type MetricFilter = 'daily' | 'weekly' | 'monthly' | 'yearly';
 
@@ -24,7 +25,7 @@ export default function AdminAnalyticsDashboard() {
   const fetchAnalytics = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/admin/analytics', { cache: 'no-store' });
+      const res = await fetch(getApiUrl('/api/admin/analytics'), { cache: 'no-store' });
       if (!res.ok) throw new Error('Failed to fetch analytics data');
       const json = await res.json();
       setData(json);
@@ -49,7 +50,7 @@ export default function AdminAnalyticsDashboard() {
   const handleToggleComplaintStatus = async (complaintId: number, currentStatus: string) => {
     const nextStatus = currentStatus === 'OPEN' ? 'RESOLVED' : 'OPEN';
     try {
-      const res = await fetch(`/api/complaints/${complaintId}`, {
+      const res = await fetch(getApiUrl(`/api/complaints/${complaintId}`), {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: nextStatus }),
@@ -67,7 +68,7 @@ export default function AdminAnalyticsDashboard() {
     if (!complaintForm.customerEmail || !complaintForm.message) return;
     setSubmittingComplaint(true);
     try {
-      const res = await fetch('/api/complaints', {
+      const res = await fetch(getApiUrl('/api/complaints'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(complaintForm),
