@@ -35,30 +35,43 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'All fields are required.' }, { status: 400 });
     }
 
-
     const orderRef = body.id || `GG-${Date.now()}`;
 
-    const order = await prisma.order.create({
-      data: {
-        orderRef,
-        customerName,
-        customerEmail,
-        phone,
-        address,
-        city,
-        paymentMethod: paymentMethod || 'cod',
-        total: parseFloat(total),
-        items,
-        status: 'PLACED',
-      },
-    });
+    // Safely embed customerEmail inside items JSON array so it persists in DB without requiring schema changes
+    const processedItems = Array.isArray(items)
+      ? items.map((item: any) => ({
+          ...item,
+          customerEmail: customerEmail || item.customerEmail || undefined,
+        }))
+      : items;
 
-    // Send emails in try/catch to ensure order completion never fails
+    // STEP 1: Database Insertion (Prisma/TiDB) happens FIRST
+    let order: any;
+    try {
+      order = await prisma.order.create({
+        data: {
+          orderRef,
+          customerName,
+          phone,
+          address,
+          city,
+          paymentMethod: paymentMethod || 'cod',
+          total: parseFloat(total),
+          items: processedItems,
+          status: 'PLACED',
+        },
+      });
+    } catch (dbErr: any) {
+      console.error('Database insertion error creating order:', dbErr);
+      return NextResponse.json({ error: dbErr.message || 'Database error creating order' }, { status: 500 });
+    }
+
+    // STEP 2: Email Sending in isolated try/catch — NEVER throws or crashes order creation
     try {
       const emailPayload = {
         orderRef: order.orderRef,
         customerName: order.customerName,
-        customerEmail: order.customerEmail,
+        customerEmail: customerEmail || (Array.isArray(order.items) && (order.items as any)[0]?.customerEmail),
         phone: order.phone,
         address: order.address,
         city: order.city,
@@ -66,14 +79,19 @@ export async function POST(request: NextRequest) {
         total: order.total,
         items: order.items,
       };
-      await Promise.allSettled([
+
+      // Execute emails without awaiting blocking errors
+      Promise.allSettled([
         sendOrderConfirmationEmail(emailPayload),
         sendAdminNewOrderNotification(emailPayload),
-      ]);
+      ]).catch((emailErr) => {
+        console.error('Nodemailer background trigger error:', emailErr);
+      });
     } catch (emailErr) {
-      console.error('Error triggering order emails:', emailErr);
+      console.error('Nodemailer email sending failed, order remains saved:', emailErr);
     }
 
+    // STEP 3: Return success response so order is placed and displayed in Admin Dashboard
     return NextResponse.json({ success: true, orderRef: order.orderRef, order }, { status: 201 });
   } catch (err: any) {
     console.error('Error creating order:', err);

@@ -54,20 +54,25 @@ export async function PATCH(
 
     // Send email notification to customer when status changes
     try {
-      await sendOrderStatusUpdateEmail(
-        {
-          orderRef: order.orderRef,
-          customerName: order.customerName,
-          customerEmail: order.customerEmail,
-          phone: order.phone,
-          address: order.address,
-          city: order.city,
-          paymentMethod: order.paymentMethod,
-          total: order.total,
-          items: order.items,
-        },
-        order.status
-      );
+      const itemsList = Array.isArray(order.items) ? (order.items as any[]) : [];
+      const customerEmail = itemsList.find((i) => i.customerEmail)?.customerEmail || (order as any).customerEmail || null;
+
+      if (customerEmail) {
+        sendOrderStatusUpdateEmail(
+          {
+            orderRef: order.orderRef,
+            customerName: order.customerName,
+            customerEmail,
+            phone: order.phone,
+            address: order.address,
+            city: order.city,
+            paymentMethod: order.paymentMethod,
+            total: order.total,
+            items: order.items,
+          },
+          order.status
+        ).catch((emailErr) => console.error('Error sending order status update email:', emailErr));
+      }
     } catch (emailErr) {
       console.error('Error sending order status update email:', emailErr);
     }
