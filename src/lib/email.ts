@@ -3,13 +3,15 @@ import nodemailer from 'nodemailer';
 const ADMIN_EMAIL = 'glamourgrid32@gmail.com';
 
 async function createVerifiedTransporter() {
-  const user = process.env.EMAIL_USER || ADMIN_EMAIL;
-  const pass = process.env.EMAIL_APP_PASS;
+  const user = (process.env.EMAIL_USER || ADMIN_EMAIL).trim();
+  const pass = (process.env.EMAIL_APP_PASS || '').trim();
 
   console.log('Nodemailer Config Check:', {
     user,
     hasPass: !!pass,
     passLength: pass ? pass.length : 0,
+    envUserSet: !!process.env.EMAIL_USER,
+    envPassSet: !!process.env.EMAIL_APP_PASS,
   });
 
   if (!pass) {
@@ -20,14 +22,14 @@ async function createVerifiedTransporter() {
     service: 'gmail',
     auth: {
       user,
-      pass: pass || '',
+      pass,
     },
   });
 
   try {
-    console.log('Verifying SMTP Connection to Gmail...');
+    console.log('Verifying SMTP Connection to Gmail for user:', user);
     await transporter.verify();
-    console.log('SMTP Connection verified successfully for user:', user);
+    console.log('SMTP Connection verified successfully!');
   } catch (verifyError) {
     console.error('SMTP Connection Verification Error:', verifyError);
   }
@@ -179,7 +181,7 @@ export async function sendOrderConfirmationEmail(order: EmailOrderDetails): Prom
 
 // 2. Send New Order Received Alert to Admin
 export async function sendAdminNewOrderNotification(order: EmailOrderDetails): Promise<boolean> {
-  const adminRecipient = process.env.EMAIL_USER || ADMIN_EMAIL;
+  const adminRecipient = (process.env.EMAIL_USER || ADMIN_EMAIL).trim();
 
   try {
     const transporter = await createVerifiedTransporter();

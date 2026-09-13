@@ -35,6 +35,7 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  console.log('=== PATCH /api/orders/[id] TRIGGERED ===');
   try {
     const session = await getSession();
     if (!session || session.role !== 'ADMIN') {
@@ -47,18 +48,21 @@ export async function PATCH(
 
     const whereClause = !isNaN(numericId) ? { id: numericId } : { orderRef: id };
 
+    // STEP 1: DB update MUST happen first
     const order = await prisma.order.update({
       where: whereClause,
       data: { status },
     });
+    console.log('Order status updated in DB to:', status, 'for orderRef:', order.orderRef);
 
-    // Send email notification to customer when status changes
+    // STEP 2: BLOCKING AWAIT on status update email sending BEFORE returning NextResponse.json
     try {
       const itemsList = Array.isArray(order.items) ? (order.items as any[]) : [];
       const customerEmail = itemsList.find((i) => i.customerEmail)?.customerEmail || (order as any).customerEmail || null;
 
       if (customerEmail) {
-        sendOrderStatusUpdateEmail(
+        console.log('=== AWAITING STATUS UPDATE EMAIL to:', customerEmail, 'Status:', order.status, '===');
+        const emailResult = await sendOrderStatusUpdateEmail(
           {
             orderRef: order.orderRef,
             customerName: order.customerName,
@@ -71,12 +75,16 @@ export async function PATCH(
             items: order.items,
           },
           order.status
-        ).catch((emailErr) => console.error('Error sending order status update email:', emailErr));
+        );
+        console.log('Status Update Email Dispatch Result:', emailResult);
+      } else {
+        console.log('No customer email found in order items, skipping status update email.');
       }
     } catch (emailErr) {
       console.error('Error sending order status update email:', emailErr);
     }
 
+    // STEP 3: Return updated order AFTER email sending has been awaited
     return NextResponse.json(order);
   } catch (err: any) {
     console.error('Error updating order status:', err);
