@@ -172,7 +172,7 @@ export default function HomePageClient({
           <span className="inline-block text-[11px] uppercase tracking-[0.3em] text-[#d4af37] border border-[#d4af37]/40 px-4 py-1.5 rounded-full mb-6 bg-black/40 backdrop-blur-sm">
             Haute Parfumerie & Cosmetics
           </span>
-          <h1 className="text-4xl md:text-7xl font-serif tracking-tight mb-6 uppercase text-[#FDFBF7] drop-shadow-2xl leading-tight">
+          <h1 className="text-2xl sm:text-4xl md:text-7xl font-serif tracking-tight mb-6 uppercase text-[#FDFBF7] drop-shadow-2xl leading-tight">
             Iconic Scent. <br />
             <span className="italic font-serif lowercase text-[#d4af37]">one</span> Unforgettable You.
           </h1>

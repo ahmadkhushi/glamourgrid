@@ -260,7 +260,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 z-30 bg-[#0f0c08] flex flex-col pt-24 px-8 transition-all duration-500 md:hidden ${
+        className={`fixed inset-0 z-30 bg-[#0f0c08] flex flex-col pt-24 px-8 overflow-y-auto max-h-screen pb-12 transition-all duration-500 md:hidden ${
           isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >

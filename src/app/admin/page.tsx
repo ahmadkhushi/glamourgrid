@@ -68,7 +68,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         {[
           { label: 'Active Products', value: productCount, icon: '📦', color: 'from-amber-900/20' },
           { label: 'Total Orders', value: orderCount, icon: '🛒', color: 'from-blue-900/20' },
@@ -86,7 +86,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Quick Actions Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-12">
         {[
           { label: 'Analytics Dashboard', href: '/admin/analytics', icon: '📊', desc: 'Real-time sales & complaints' },
           { label: 'Manage Orders', href: '/admin/orders', icon: '📋', desc: 'Update order lifecycle' },

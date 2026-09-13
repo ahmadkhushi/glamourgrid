@@ -31,7 +31,7 @@ export default function FeaturedCategories() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: idx * 0.2 }}
             >
-              <Link href={cat.link} className="group relative block w-full h-[50vh] overflow-hidden">
+              <Link href={cat.link} className="group relative block w-full h-[35vh] sm:h-[45vh] md:h-[50vh] overflow-hidden">
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-700 z-10" />
                 <img 
                   src={cat.image} 

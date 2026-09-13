@@ -110,13 +110,13 @@ export default function ProductDetailClient({
                 loop
                 muted
                 playsInline
-                className="w-full h-[450px] object-cover rounded"
+                className="w-full h-[300px] sm:h-[400px] md:h-[450px] object-cover rounded"
               />
             ) : (
               <img
                 src={mainImage}
                 alt={product.name}
-                className="w-full h-[450px] object-cover rounded"
+                className="w-full h-[300px] sm:h-[400px] md:h-[450px] object-cover rounded"
               />
             )}
             

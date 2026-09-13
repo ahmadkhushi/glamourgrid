@@ -7,7 +7,7 @@ export default function BrandStory() {
     <section className="py-24 px-6 bg-[#0f0c08]">
       <div className="container mx-auto max-w-6xl flex flex-col md:flex-row items-center gap-12 md:gap-20">
         <motion.div 
-          className="w-full md:w-1/2 h-[50vh] md:h-[60vh] overflow-hidden"
+          className="w-full md:w-1/2 h-[35vh] sm:h-[45vh] md:h-[60vh] overflow-hidden"
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}

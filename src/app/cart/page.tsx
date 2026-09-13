@@ -52,16 +52,22 @@ export default function CartPage() {
               {items.map((item) => {
                 const qty = item.quantity ?? 1;
                 return (
-                  <div key={item.id} className="flex items-center gap-6 border-b border-[#2a2018] py-6">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-24 h-24 object-cover border border-[#2a2018]"
-                    />
-                    <div className="flex-grow">
-                      <h3 className="text-lg font-serif text-[#FDFBF7] mb-1">{item.name}</h3>
-                      <p className="text-[#d4af37] mb-3 text-sm">Rs. {item.price.toFixed(0)}</p>
-                      <div className="flex items-center gap-4">
+                  <div key={item.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 border-b border-[#2a2018] py-6">
+                    <div className="flex items-center gap-4 w-full sm:w-auto">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-20 h-20 sm:w-24 sm:h-24 object-cover border border-[#2a2018] shrink-0"
+                      />
+                      <div className="sm:hidden flex-grow">
+                        <h3 className="text-base font-serif text-[#FDFBF7] mb-1">{item.name}</h3>
+                        <p className="text-[#d4af37] text-sm font-semibold">Rs. {item.price.toFixed(0)}</p>
+                      </div>
+                    </div>
+                    <div className="flex-grow w-full sm:w-auto">
+                      <h3 className="hidden sm:block text-lg font-serif text-[#FDFBF7] mb-1">{item.name}</h3>
+                      <p className="hidden sm:block text-[#d4af37] mb-3 text-sm">Rs. {item.price.toFixed(0)}</p>
+                      <div className="flex items-center justify-between sm:justify-start gap-4 w-full">
                         <div className="flex items-center border border-[#2a2018]">
                           <button
                             onClick={() => updateQuantity(item.id, Math.max(1, qty - 1))}
@@ -75,13 +81,18 @@ export default function CartPage() {
                         </div>
                         <button
                           onClick={() => removeItem(item.id)}
-                          className="text-sm text-[#a89f91] hover:text-red-400 transition-colors uppercase tracking-widest"
+                          className="text-xs sm:text-sm text-[#a89f91] hover:text-red-400 transition-colors uppercase tracking-widest"
                         >
                           Remove
                         </button>
+                        <div className="sm:hidden text-right">
+                          <p className="font-semibold text-[#FDFBF7] text-base">
+                            Rs. {(item.price * qty).toFixed(0)}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                    <div className="text-right">
+                    <div className="hidden sm:block text-right">
                       <p className="font-semibold text-[#FDFBF7] text-lg">
                         Rs. {(item.price * qty).toFixed(0)}
                       </p>

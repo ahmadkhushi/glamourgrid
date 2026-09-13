@@ -120,7 +120,7 @@ export default function ProductCard({ product }: { product: any }) {
       </div>
 
       {/* Add to Cart */}
-      <div className="overflow-hidden max-h-0 group-hover:max-h-16 transition-all duration-500 ease-in-out">
+      <div className="overflow-hidden max-h-16 md:max-h-0 md:group-hover:max-h-16 transition-all duration-500 ease-in-out">
         <button
           onClick={() => addItem({ id: product.id, name: product.name, price: product.salePrice ?? product.price, image: mainImage, quantity: 1 })}
           className="w-full py-3 bg-[#d4af37] text-[#0f0c08] text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-[#e8c84a] transition-colors duration-300"
