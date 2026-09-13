@@ -53,9 +53,22 @@ model Product {
   stock        Int       @default(100)
   colors       Json?     // Array of { name: string, hex: string, inStock?: boolean }
   keywords     String?   // SEO tags / search keywords comma-separated
+  reviews      Review[]
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 }
+
+model Review {
+  id         Int      @id @default(autoincrement())
+  productId  Int
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  authorName String
+  rating     Int      @default(5)
+  comment    String   @db.Text
+  isApproved Boolean  @default(true)
+  createdAt  DateTime @default(now())
+}
+
 
 model Order {
   id            Int         @id @default(autoincrement())

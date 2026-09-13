@@ -82,7 +82,29 @@ export default function ProductCard({ product }: { product: any }) {
           <h3 className="text-sm font-serif text-[#FDFBF7] hover:text-[#d4af37] transition-colors leading-snug">{product.name}</h3>
         </Link>
         {product.colors && <ColorSwatches colors={product.colors} size="sm" />}
-        <div className="flex items-center justify-between mt-2">
+        {(() => {
+          const reviews = Array.isArray(product.reviews) ? product.reviews : [];
+          const reviewCount = reviews.length;
+          const avgRating = reviewCount > 0
+            ? reviews.reduce((sum: number, r: any) => sum + (r.rating || 5), 0) / reviewCount
+            : 5;
+
+          return (
+            <div className="flex items-center gap-1.5 my-1">
+              <div className="flex text-[#d4af37]">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span key={star} className={star <= Math.round(avgRating) ? "text-[#d4af37]" : "text-[#3a2e22]"}>
+                    ★
+                  </span>
+                ))}
+              </div>
+              <span className="text-[10px] text-[#a89f91] font-mono">
+                {reviewCount > 0 ? `${avgRating.toFixed(1)} (${reviewCount})` : '5.0 (New)'}
+              </span>
+            </div>
+          );
+        })()}
+        <div className="flex items-center justify-between mt-1">
           <div className="flex items-center gap-2">
             {product.salePrice ? (
               <>
@@ -94,6 +116,7 @@ export default function ProductCard({ product }: { product: any }) {
             )}
           </div>
         </div>
+
       </div>
 
       {/* Add to Cart */}

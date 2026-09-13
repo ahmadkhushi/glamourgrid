@@ -17,10 +17,14 @@ export async function GET(request: NextRequest) {
   try {
     const products = await prisma.product.findMany({
       where,
-      include: { category: { select: { name: true, slug: true } } },
+      include: {
+        category: { select: { name: true, slug: true } },
+        reviews: { where: { isApproved: true } },
+      },
       orderBy: { createdAt: 'desc' },
       take: limit,
     });
+
     return NextResponse.json(products);
   } catch {
     return NextResponse.json([]);

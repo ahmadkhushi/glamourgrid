@@ -86,11 +86,12 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Quick Actions Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12">
         {[
           { label: 'Analytics Dashboard', href: '/admin/analytics', icon: '📊', desc: 'Real-time sales & complaints' },
           { label: 'Manage Orders', href: '/admin/orders', icon: '📋', desc: 'Update order lifecycle' },
           { label: 'Manage Products', href: '/admin/products', icon: '📦', desc: 'Edit, delete, toggle sale' },
+          { label: 'Moderate Reviews', href: '/admin/reviews', icon: '⭐', desc: 'Approve & delete reviews' },
           { label: 'Add Product', href: '/admin/products/new', icon: '➕', desc: 'Add new item to catalog' },
         ].map((link) => (
           <Link key={link.href} href={link.href}
@@ -101,6 +102,7 @@ export default async function AdminDashboard() {
           </Link>
         ))}
       </div>
+
 
       {/* Recent Orders Table */}
       <div className="bg-[#16100a] border border-[#2a2018] rounded-xl overflow-hidden shadow-lg">

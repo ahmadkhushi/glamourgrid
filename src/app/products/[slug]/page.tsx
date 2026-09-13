@@ -6,6 +6,7 @@ export const revalidate = 0;
 export default async function ProductsAliasPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   let product: any = null;
+  let relatedProducts: any[] = [];
 
   try {
     const numericId = parseInt(slug);
@@ -13,8 +14,29 @@ export default async function ProductsAliasPage({ params }: { params: Promise<{ 
       where: !isNaN(numericId)
         ? { OR: [{ id: numericId }, { slug }] }
         : { slug },
-      include: { category: true }
+      include: {
+        category: true,
+        reviews: {
+          where: { isApproved: true },
+          orderBy: { createdAt: 'desc' },
+        },
+      },
     });
+
+    if (product?.categoryId) {
+      relatedProducts = await prisma.product.findMany({
+        where: {
+          categoryId: product.categoryId,
+          id: { not: product.id },
+          isActive: true,
+        },
+        include: {
+          category: true,
+          reviews: { where: { isApproved: true } },
+        },
+        take: 4,
+      });
+    }
   } catch (err) {
     console.error("Prisma error in ProductsAliasPage:", err);
   }
@@ -32,9 +54,19 @@ export default async function ProductsAliasPage({ params }: { params: Promise<{ 
         { name: 'Rose Gold', hex: '#b76e79' },
         { name: 'Classic Red', hex: '#c41e3a' },
       ],
-      keywords: 'glamour, luxury, cosmetics, beauty'
+      keywords: 'glamour, luxury, cosmetics, beauty',
+      reviews: [
+        {
+          id: 101,
+          authorName: 'Eleanor Vance',
+          rating: 5,
+          comment: 'Exquisite formulation! Lasts all day with a beautiful velvety finish.',
+          createdAt: new Date().toISOString(),
+        },
+      ],
     };
   }
 
-  return <ProductDetailClient product={product} />;
+  return <ProductDetailClient product={product} relatedProducts={relatedProducts} />;
 }
+
