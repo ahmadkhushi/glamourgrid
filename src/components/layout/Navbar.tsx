@@ -212,11 +212,19 @@ export default function Navbar() {
             </Link>
 
             <Link
+              href="/track-order"
+              className="nav-link text-[11px] uppercase tracking-[0.2em] text-[#a89f91] hover:text-[#d4af37] transition-colors duration-300"
+            >
+              Track Order
+            </Link>
+
+            <Link
               href="/about"
               className="nav-link text-[11px] uppercase tracking-[0.2em] text-[#a89f91] hover:text-[#d4af37] transition-colors duration-300"
             >
               About
             </Link>
+
 
             {/* Sale link — red highlight */}
             <Link
@@ -263,8 +271,10 @@ export default function Navbar() {
             { label: "Skincare", href: "/shop/skincare" },
             { label: "Fragrance", href: "/shop/fragrance" },
             { label: "New Arrivals", href: "/shop?sort=newest" },
+            { label: "Track Order 📦", href: "/track-order" },
             { label: "🔴 Sale", href: "/sale" },
             { label: "About", href: "/about" },
+
           ].map(({ label, href }) => (
             <Link
               key={href}

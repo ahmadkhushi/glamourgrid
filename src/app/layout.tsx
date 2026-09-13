@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import CustomCursor from "@/components/ui/CustomCursor";
+import WhatsAppButton from "@/components/ui/WhatsAppButton";
 
 export const metadata: Metadata = {
   title: "GlamourGrid",
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body>
         <CustomCursor />
         {children}
+        <WhatsAppButton />
       </body>
     </html>
   );

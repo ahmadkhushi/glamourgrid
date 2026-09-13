@@ -49,6 +49,7 @@ export default function Footer() {
           <ul className="space-y-4 text-xs text-[#a89f91] tracking-wide">
             {[
               { label: "Contact: glomourgrid32@gmail.com", href: "mailto:glomourgrid32@gmail.com" },
+              { label: "Track Your Order 📦", href: "/track-order" },
               { label: "Shipping & Returns", href: "/shipping" },
               { label: "FAQs", href: "/faq" },
               { label: "My Account", href: "/account" },
@@ -56,9 +57,10 @@ export default function Footer() {
               { label: "Terms of Service", href: "/terms" },
             ].map(({ label, href }) => (
               <li key={href}>
-                <a href={href} className="hover:text-[#d4af37] transition-colors duration-300">{label}</a>
+                <Link href={href} className="hover:text-[#d4af37] transition-colors duration-300">{label}</Link>
               </li>
             ))}
+
           </ul>
         </div>
 
