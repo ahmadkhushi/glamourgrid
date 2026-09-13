@@ -80,7 +80,7 @@ export default async function ShopPage() {
     <div className="pt-24 min-h-screen bg-[#0f0c08] text-[#FDFBF7]">
       <div className="container mx-auto px-4 md:px-8 py-12">
         <h1 className="text-4xl font-serif text-[#d4af37] mb-8 text-center tracking-wide">All Products</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 md:gap-8">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

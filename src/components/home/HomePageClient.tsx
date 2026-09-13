@@ -200,8 +200,8 @@ export default function HomePageClient({
           <div className="w-12 h-0.5 bg-[#d4af37] mx-auto mt-4" />
         </div>
 
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {/* Product Grid — 2 in a row on mobile */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 md:gap-8">
           {products.map((product) => (
             <div
               key={product.id}

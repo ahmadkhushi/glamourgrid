@@ -30,7 +30,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       <div className="container mx-auto px-4 md:px-8 py-12">
         <h1 className="text-4xl font-serif text-[#d4af37] mb-4 text-center tracking-wide">{categoryName}</h1>
         <p className="text-center text-[#a89f91] mb-12">{categoryDesc}</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 md:gap-8">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
