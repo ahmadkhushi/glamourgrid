@@ -348,7 +348,7 @@ export default function Home() {
           <div className="w-12 h-0.5 bg-[#d4af37] mx-auto mt-4" />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 md:gap-8">
           {products.map((product, idx) => (
             <div key={product.id} className="group relative bg-[#140f0a] border border-[#2a2018] hover:border-[#d4af37]/40 transition-all duration-500 rounded-sm overflow-hidden flex flex-col justify-between">
               
