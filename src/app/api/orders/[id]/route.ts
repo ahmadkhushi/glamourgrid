@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/session';
+import { sendOrderStatusUpdateEmail } from '@/lib/email';
 
 
 export async function GET(
@@ -50,6 +51,26 @@ export async function PATCH(
       where: whereClause,
       data: { status },
     });
+
+    // Send email notification to customer when status changes
+    try {
+      await sendOrderStatusUpdateEmail(
+        {
+          orderRef: order.orderRef,
+          customerName: order.customerName,
+          customerEmail: order.customerEmail,
+          phone: order.phone,
+          address: order.address,
+          city: order.city,
+          paymentMethod: order.paymentMethod,
+          total: order.total,
+          items: order.items,
+        },
+        order.status
+      );
+    } catch (emailErr) {
+      console.error('Error sending order status update email:', emailErr);
+    }
 
     return NextResponse.json(order);
   } catch (err: any) {

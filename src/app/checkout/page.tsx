@@ -19,6 +19,7 @@ export default function CheckoutPage() {
 
   const [form, setForm] = useState({
     name: "",
+    email: "",
     phone: "",
     address: "",
     city: "",
@@ -45,6 +46,7 @@ export default function CheckoutPage() {
 
     const orderPayload = {
       customerName: form.name.trim(),
+      customerEmail: form.email.trim() || undefined,
       phone: form.phone.trim(),
       address: form.address.trim(),
       city: form.city.trim(),
@@ -152,6 +154,18 @@ export default function CheckoutPage() {
                     className="w-full bg-[#0f0c08] border border-[#2a2018] text-[#FDFBF7] px-4 py-3 text-sm focus:outline-none focus:border-[#d4af37]/50 placeholder:text-[#a89f91]/40"
                   />
                   {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
+                </div>
+
+                {/* Email */}
+                <div>
+                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#a89f91] mb-2">Email Address (Optional)</label>
+                  <input
+                    type="email"
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    placeholder="customer@example.com"
+                    className="w-full bg-[#0f0c08] border border-[#2a2018] text-[#FDFBF7] px-4 py-3 text-sm focus:outline-none focus:border-[#d4af37]/50 placeholder:text-[#a89f91]/40"
+                  />
                 </div>
 
                 {/* Phone */}

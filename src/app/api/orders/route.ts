@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/session';
+import { sendOrderConfirmationEmail, sendAdminNewOrderNotification } from '@/lib/email';
 
 
 export async function GET() {
@@ -27,6 +28,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     const customerName = body.customerName || body.name;
+    const customerEmail = body.customerEmail || body.email || null;
     const { phone, address, city, paymentMethod, total, items } = body;
 
     if (!customerName || !phone || !address || !city || !paymentMethod || total === undefined || !items) {
@@ -40,6 +42,7 @@ export async function POST(request: NextRequest) {
       data: {
         orderRef,
         customerName,
+        customerEmail,
         phone,
         address,
         city,
@@ -49,6 +52,27 @@ export async function POST(request: NextRequest) {
         status: 'PLACED',
       },
     });
+
+    // Send emails in try/catch to ensure order completion never fails
+    try {
+      const emailPayload = {
+        orderRef: order.orderRef,
+        customerName: order.customerName,
+        customerEmail: order.customerEmail,
+        phone: order.phone,
+        address: order.address,
+        city: order.city,
+        paymentMethod: order.paymentMethod,
+        total: order.total,
+        items: order.items,
+      };
+      await Promise.allSettled([
+        sendOrderConfirmationEmail(emailPayload),
+        sendAdminNewOrderNotification(emailPayload),
+      ]);
+    } catch (emailErr) {
+      console.error('Error triggering order emails:', emailErr);
+    }
 
     return NextResponse.json({ success: true, orderRef: order.orderRef, order }, { status: 201 });
   } catch (err: any) {
