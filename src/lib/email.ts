@@ -2,21 +2,37 @@ import nodemailer from 'nodemailer';
 
 const ADMIN_EMAIL = 'glamourgrid32@gmail.com';
 
-function createTransporter() {
+async function createVerifiedTransporter() {
   const user = process.env.EMAIL_USER || ADMIN_EMAIL;
   const pass = process.env.EMAIL_APP_PASS;
 
+  console.log('Nodemailer Config Check:', {
+    user,
+    hasPass: !!pass,
+    passLength: pass ? pass.length : 0,
+  });
+
   if (!pass) {
-    console.warn('⚠️ Nodemailer warning: EMAIL_APP_PASS is not set in environment variables.');
+    console.warn('⚠️ Nodemailer Warning: EMAIL_APP_PASS environment variable is NOT set or empty!');
   }
 
-  return nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user,
       pass: pass || '',
     },
   });
+
+  try {
+    console.log('Verifying SMTP Connection to Gmail...');
+    await transporter.verify();
+    console.log('SMTP Connection verified successfully for user:', user);
+  } catch (verifyError) {
+    console.error('SMTP Connection Verification Error:', verifyError);
+  }
+
+  return transporter;
 }
 
 interface OrderItem {
@@ -95,7 +111,7 @@ export async function sendOrderConfirmationEmail(order: EmailOrderDetails): Prom
   }
 
   try {
-    const transporter = createTransporter();
+    const transporter = await createVerifiedTransporter();
     const itemsList = Array.isArray(order.items) ? order.items : [];
 
     const itemsHtml = itemsList
@@ -145,17 +161,18 @@ export async function sendOrderConfirmationEmail(order: EmailOrderDetails): Prom
       </p>
     `;
 
-    await transporter.sendMail({
+    console.log(`Sending Customer Confirmation Email to ${recipientEmail}...`);
+    const info = await transporter.sendMail({
       from: `"GlamourGrid" <${process.env.EMAIL_USER || ADMIN_EMAIL}>`,
       to: recipientEmail,
       subject: `Order Confirmation - #${order.orderRef} | GlamourGrid`,
       html: wrapEmailTemplate('Order Confirmation', bodyHtml),
     });
 
-    console.log(`Order confirmation email sent to ${recipientEmail}`);
+    console.log('Nodemailer Success:', info);
     return true;
   } catch (error) {
-    console.error('Error sending order confirmation email:', error);
+    console.error('Nodemailer Error:', error);
     return false;
   }
 }
@@ -165,7 +182,7 @@ export async function sendAdminNewOrderNotification(order: EmailOrderDetails): P
   const adminRecipient = process.env.EMAIL_USER || ADMIN_EMAIL;
 
   try {
-    const transporter = createTransporter();
+    const transporter = await createVerifiedTransporter();
     const itemsList = Array.isArray(order.items) ? order.items : [];
 
     const itemsHtml = itemsList
@@ -213,17 +230,18 @@ export async function sendAdminNewOrderNotification(order: EmailOrderDetails): P
       </div>
     `;
 
-    await transporter.sendMail({
+    console.log(`Sending Admin New Order Alert Email to ${adminRecipient}...`);
+    const info = await transporter.sendMail({
       from: `"GlamourGrid System" <${process.env.EMAIL_USER || ADMIN_EMAIL}>`,
       to: adminRecipient,
       subject: `🛒 New Order #${order.orderRef} - Rs. ${Number(order.total).toLocaleString()}`,
       html: wrapEmailTemplate('New Order Alert', bodyHtml),
     });
 
-    console.log(`Admin order alert sent to ${adminRecipient}`);
+    console.log('Nodemailer Success:', info);
     return true;
   } catch (error) {
-    console.error('Error sending admin order notification:', error);
+    console.error('Nodemailer Error:', error);
     return false;
   }
 }
@@ -240,7 +258,7 @@ export async function sendOrderStatusUpdateEmail(
   }
 
   try {
-    const transporter = createTransporter();
+    const transporter = await createVerifiedTransporter();
 
     let statusDescription = '';
     let statusTitle = newStatus;
@@ -293,17 +311,18 @@ export async function sendOrderStatusUpdateEmail(
       </div>
     `;
 
-    await transporter.sendMail({
+    console.log(`Sending Order Status Update (${statusTitle}) Email to ${recipientEmail}...`);
+    const info = await transporter.sendMail({
       from: `"GlamourGrid" <${process.env.EMAIL_USER || ADMIN_EMAIL}>`,
       to: recipientEmail,
       subject: `Order Update - #${order.orderRef} is now ${statusTitle} | GlamourGrid`,
       html: wrapEmailTemplate('Order Status Update', bodyHtml),
     });
 
-    console.log(`Order status update email (${newStatus}) sent to ${recipientEmail}`);
+    console.log('Nodemailer Success:', info);
     return true;
   } catch (error) {
-    console.error('Error sending order status update email:', error);
+    console.error('Nodemailer Error:', error);
     return false;
   }
 }

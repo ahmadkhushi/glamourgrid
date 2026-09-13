@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: dbErr.message || 'Database error creating order' }, { status: 500 });
     }
 
-    // STEP 2: Email Sending in isolated try/catch — NEVER throws or crashes order creation
+    // STEP 2: Email Sending in isolated try/catch — MUST be awaited on Vercel serverless runtime
     try {
       const emailPayload = {
         orderRef: order.orderRef,
@@ -80,15 +80,16 @@ export async function POST(request: NextRequest) {
         items: order.items,
       };
 
-      // Execute emails without awaiting blocking errors
-      Promise.allSettled([
+      console.log('Initiating email notifications for orderRef:', order.orderRef, 'Target Customer Email:', emailPayload.customerEmail);
+
+      const emailResults = await Promise.allSettled([
         sendOrderConfirmationEmail(emailPayload),
         sendAdminNewOrderNotification(emailPayload),
-      ]).catch((emailErr) => {
-        console.error('Nodemailer background trigger error:', emailErr);
-      });
+      ]);
+
+      console.log('Email settlement results:', JSON.stringify(emailResults, null, 2));
     } catch (emailErr) {
-      console.error('Nodemailer email sending failed, order remains saved:', emailErr);
+      console.error('Nodemailer Error in order route:', emailErr);
     }
 
     // STEP 3: Return success response so order is placed and displayed in Admin Dashboard
