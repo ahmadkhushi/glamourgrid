@@ -23,12 +23,15 @@ export default function ProductCard({ product }: { product: any }) {
 
   return (
     <motion.div
-      className="group relative flex flex-col bg-[#121316] border border-white/10 hover:border-[#D4AF37]/40 hover:shadow-[0_8px_30px_rgba(212,175,55,0.12)] transition-all duration-500 rounded-lg overflow-hidden"
+      className="group relative flex flex-col bg-[#121316]/80 backdrop-blur-md border border-white/10 hover:border-[#D4AF37]/50 hover:shadow-[0_18px_50px_-10px_rgba(212,175,55,0.25)] transition-all duration-500 rounded-xl overflow-hidden"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -6, scale: 1.015 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
     >
+      {/* Ambient gold glow */}
+      <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#D4AF37]/15 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
       {/* Badges */}
       <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
         {product.isNewArrival && (
