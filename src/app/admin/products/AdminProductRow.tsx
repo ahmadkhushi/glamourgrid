@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { Pencil, Trash2, ToggleLeft, ToggleRight, Check, X, Tag, Edit3 } from 'lucide-react';
+import { Pencil, Trash2, ToggleLeft, ToggleRight, Check, X, Tag, Edit3, Sparkles } from 'lucide-react';
 
 import { getApiUrl } from '@/lib/api';
 
@@ -13,6 +13,7 @@ export interface ProductData {
   salePrice: number | null;
   isActive: boolean;
   isSale: boolean;
+  isFeatured?: boolean;
   imageUrl: string | null;
   description?: string | null;
   keywords?: string | null;
@@ -82,6 +83,17 @@ export default function AdminProductRow({ product, onEditClick }: AdminProductRo
       if (ok) {
         setProductData((prev) => ({ ...prev, isActive: !prev.isActive }));
         flash(productData.isActive ? '✓ Deactivated' : '✓ Activated');
+      }
+    });
+  };
+
+  const toggleFeatured = () => {
+    startTransition(async () => {
+      const nextVal = !productData.isFeatured;
+      const ok = await patchProduct({ isFeatured: nextVal });
+      if (ok) {
+        setProductData((prev) => ({ ...prev, isFeatured: nextVal }));
+        flash(nextVal ? '✓ Added to Side-Scroll' : '✓ Removed from Side-Scroll');
       }
     });
   };
@@ -169,21 +181,42 @@ export default function AdminProductRow({ product, onEditClick }: AdminProductRo
 
       {/* Status */}
       <td className="px-5 py-4">
-        <span className={`text-xs px-2 py-1 rounded-sm uppercase tracking-widest ${productData.isActive ? 'bg-green-400/10 text-green-400' : 'bg-red-400/10 text-red-400'}`}>
-          {productData.isActive ? 'Active' : 'Inactive'}
-        </span>
+        <div className="flex flex-col gap-1 items-start">
+          <span className={`text-[10px] px-2 py-0.5 rounded-sm uppercase tracking-widest ${productData.isActive ? 'bg-green-400/10 text-green-400' : 'bg-red-400/10 text-red-400'}`}>
+            {productData.isActive ? 'Active' : 'Inactive'}
+          </span>
+          {productData.isFeatured && (
+            <span className="text-[9px] px-1.5 py-0.5 rounded-sm uppercase tracking-widest bg-[#d4af37]/15 text-[#d4af37] border border-[#d4af37]/30 flex items-center gap-1 font-semibold">
+              <Sparkles size={9} /> Side-Scroll
+            </span>
+          )}
+        </div>
       </td>
 
       {/* Actions */}
       <td className="px-5 py-4">
         <div className="flex items-center gap-2 flex-wrap">
+          {/* Side-Scroll (Featured) Toggle Button */}
+          <button
+            onClick={toggleFeatured}
+            title={productData.isFeatured ? 'Click to remove from Side Scroll' : 'Click to add to Side Scroll'}
+            className={`flex items-center gap-1.5 px-3 py-1.5 text-[10px] uppercase tracking-wider rounded-sm transition-all font-semibold border ${
+              productData.isFeatured
+                ? 'bg-[#d4af37]/20 border-[#d4af37] text-[#d4af37] hover:bg-[#d4af37]/30 shadow-[0_0_10px_rgba(212,175,55,0.2)]'
+                : 'border-[#2a2018] text-[#a89f91] hover:border-[#d4af37]/50 hover:text-[#d4af37]'
+            }`}
+          >
+            <Sparkles size={11} className={productData.isFeatured ? 'text-[#d4af37]' : ''} />
+            {productData.isFeatured ? 'In Side Scroll' : '+ Side Scroll'}
+          </button>
+
           {/* Edit All — triggers modal in PARENT (outside the table) */}
           <button
             onClick={() => onEditClick(productData)}
             title="Full Edit (Price, Status, Description, Keywords, Color Swatches)"
             className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] uppercase tracking-wider rounded-sm bg-[#d4af37]/10 text-[#d4af37] border border-[#d4af37]/30 hover:bg-[#d4af37] hover:text-[#0f0c08] transition-all font-semibold"
           >
-            <Edit3 size={12} /> Edit All
+            <Edit3 size={12} /> Edit
           </button>
 
           {/* Sale Toggle */}

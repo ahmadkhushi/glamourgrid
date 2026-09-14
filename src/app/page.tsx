@@ -9,19 +9,30 @@ export default async function Home() {
   const session = await getSession();
   const isAdmin = session?.role === 'ADMIN';
 
-  let products: any[] = [];
+  let mainProducts: any[] = [];
+  let featuredProducts: any[] = [];
+
   try {
-    products = await prisma.product.findMany({
+    // 1. Fetch Main Vertical List Products
+    mainProducts = await prisma.product.findMany({
       where: { isActive: true },
       include: { category: true },
       orderBy: { createdAt: 'desc' },
+      take: 24,
+    });
+
+    // 2. Fetch Isolated Side-Scroll Featured Products ONLY (where isFeatured: true)
+    featuredProducts = await prisma.product.findMany({
+      where: { isActive: true, isFeatured: true },
+      include: { category: true },
+      orderBy: { updatedAt: 'desc' },
       take: 12,
     });
   } catch (err) {
     console.error('Error fetching home products from database:', err);
   }
 
-  const formattedProducts = products.map((p) => ({
+  const formatProduct = (p: any) => ({
     id: p.id,
     name: p.name,
     description: p.description || '',
@@ -31,11 +42,16 @@ export default async function Home() {
     imageUrl: p.imageUrl || '/perfume-banner.jpg',
     videoUrl: p.videoUrl || null,
     stock: p.stock ?? 10,
-  }));
+    isFeatured: Boolean(p.isFeatured),
+  });
+
+  const formattedMainProducts = mainProducts.map(formatProduct);
+  const formattedFeaturedProducts = featuredProducts.map(formatProduct);
 
   return (
     <HomePageClient
-      initialProducts={formattedProducts.length > 0 ? formattedProducts : undefined}
+      initialProducts={formattedMainProducts.length > 0 ? formattedMainProducts : undefined}
+      initialFeaturedProducts={formattedFeaturedProducts.length > 0 ? formattedFeaturedProducts : undefined}
       isAdmin={isAdmin}
     />
   );

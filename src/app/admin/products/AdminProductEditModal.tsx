@@ -20,6 +20,7 @@ export default function AdminProductEditModal({
   const [price, setPrice] = useState(String(product.price || ''));
   const [salePrice, setSalePrice] = useState(String(product.salePrice ?? ''));
   const [isActive, setIsActive] = useState(Boolean(product.isActive));
+  const [isFeatured, setIsFeatured] = useState(Boolean(product.isFeatured));
   const [description, setDescription] = useState(product.description || '');
   const [keywords, setKeywords] = useState(product.keywords || '');
   
@@ -58,6 +59,7 @@ export default function AdminProductEditModal({
         price: parseFloat(price),
         salePrice: salePrice.trim() ? parseFloat(salePrice) : null,
         isActive,
+        isFeatured,
         description,
         keywords,
         colors,
@@ -125,8 +127,8 @@ export default function AdminProductEditModal({
             />
           </div>
 
-          {/* Pricing & Active Status Row */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Pricing, Status & Side-Scroll Row */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             <div>
               <label className="block text-[11px] uppercase tracking-widest text-[#a89f91] mb-1">
                 Regular Price (Rs.)
@@ -167,7 +169,24 @@ export default function AdminProductEditModal({
                 }`}
               >
                 <span className={`w-2.5 h-2.5 rounded-full ${isActive ? 'bg-green-400' : 'bg-red-400'}`} />
-                {isActive ? 'Active (Live)' : 'Inactive (Hidden)'}
+                {isActive ? 'Active (Live)' : 'Inactive'}
+              </button>
+            </div>
+            <div>
+              <label className="block text-[11px] uppercase tracking-widest text-[#a89f91] mb-1">
+                Side-Scroll Featured
+              </label>
+              <button
+                type="button"
+                onClick={() => setIsFeatured(!isFeatured)}
+                className={`w-full py-2 px-3 text-xs font-semibold uppercase tracking-wider border transition-all flex items-center justify-center gap-1.5 ${
+                  isFeatured
+                    ? 'bg-[#d4af37]/20 border-[#d4af37] text-[#d4af37] shadow-[0_0_12px_rgba(212,175,55,0.25)]'
+                    : 'bg-[#0f0c08] border-[#2a2018] text-[#a89f91] hover:border-[#d4af37]/50'
+                }`}
+              >
+                <Sparkles size={13} className={isFeatured ? 'text-[#d4af37]' : ''} />
+                {isFeatured ? 'In Side Scroll' : 'Not Featured'}
               </button>
             </div>
           </div>

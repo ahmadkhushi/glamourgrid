@@ -20,7 +20,71 @@ interface Product {
   imageUrl: string;
   videoUrl?: string | null;
   stock: number;
+  isFeatured?: boolean;
 }
+
+const DEFAULT_FEATURED_PRODUCTS: Product[] = [
+  {
+    id: 101,
+    name: "Azzaro Wanted Elixir - Gold Edition",
+    description: "Ultra-concentrated woody oriental elixir laced with fiery passionfruit & noble leather.",
+    price: 1450,
+    originalPrice: 1800,
+    category: "fragrance",
+    imageUrl: "/perfume-banner.jpg",
+    videoUrl: null,
+    stock: 12,
+    isFeatured: true,
+  },
+  {
+    id: 102,
+    name: "Versace Eros Flame Parfum",
+    description: "Fiery red luxury masculine essence of sweet citrus, pepperwood & warm tonka bean.",
+    price: 1350,
+    originalPrice: 1650,
+    category: "fragrance",
+    imageUrl: "/versace-fragrance.jpg",
+    videoUrl: null,
+    stock: 15,
+    isFeatured: true,
+  },
+  {
+    id: 103,
+    name: "Nebli Rose Gold Precision Luxe Liner",
+    description: "24H waterproof Japanese micro-felt tip eyeliner in metallic champagne rose gold casing.",
+    price: 850,
+    originalPrice: 1050,
+    category: "mascara",
+    imageUrl: "/eyeliner-rosegold.jpg",
+    videoUrl: null,
+    stock: 20,
+    isFeatured: true,
+  },
+  {
+    id: 104,
+    name: "Huda Glow Starlight Highlighter Palette",
+    description: "Multi-dimensional prism baked pigments for an ethereal, lit-from-within goddess glow.",
+    price: 950,
+    originalPrice: 1200,
+    category: "makeup",
+    imageUrl: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?q=80&w=800&auto=format&fit=crop",
+    videoUrl: null,
+    stock: 18,
+    isFeatured: true,
+  },
+  {
+    id: 105,
+    name: "Silk Press 24K Botanical Glow Serum",
+    description: "Deeply restorative cold-pressed botanical botanical elixir infused with pure Moroccan rosehip.",
+    price: 1100,
+    originalPrice: 1400,
+    category: "skincare",
+    imageUrl: "https://images.unsplash.com/photo-1608248597263-00079e96047c?q=80&w=800&auto=format&fit=crop",
+    videoUrl: null,
+    stock: 22,
+    isFeatured: true,
+  },
+];
 
 const DEFAULT_PRODUCTS: Product[] = [
   {
@@ -272,13 +336,23 @@ function PremiumProductCard({
 /* ─── Main page component ─── */
 export default function HomePageClient({
   initialProducts,
+  initialFeaturedProducts,
   isAdmin = false,
 }: {
   initialProducts?: Product[];
+  initialFeaturedProducts?: Product[];
   isAdmin?: boolean;
 }) {
+  // Main vertical list products (independent from side-scroll)
   const [products, setProducts] = useState<Product[]>(
     initialProducts && initialProducts.length > 0 ? initialProducts : DEFAULT_PRODUCTS
+  );
+
+  // Isolated Side-Scroll Featured products (only where isFeatured: true, or demo defaults)
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>(
+    initialFeaturedProducts && initialFeaturedProducts.length > 0
+      ? initialFeaturedProducts
+      : DEFAULT_FEATURED_PRODUCTS
   );
 
   useEffect(() => {
@@ -286,6 +360,12 @@ export default function HomePageClient({
       setProducts(initialProducts);
     }
   }, [initialProducts]);
+
+  useEffect(() => {
+    if (initialFeaturedProducts && initialFeaturedProducts.length > 0) {
+      setFeaturedProducts(initialFeaturedProducts);
+    }
+  }, [initialFeaturedProducts]);
 
   const [activeMedia, setActiveMedia] = useState<{
     type: "image" | "video";
@@ -322,10 +402,10 @@ export default function HomePageClient({
     setProducts((prev) =>
       prev.map((p) => (p.id === productId ? { ...p, price: newPrice } : p))
     );
+    setFeaturedProducts((prev) =>
+      prev.map((p) => (p.id === productId ? { ...p, price: newPrice } : p))
+    );
   };
-
-  /* First 6 products feed the carousel; all products feed the grid */
-  const carouselProducts = products.slice(0, 8);
 
   return (
     <div className="min-h-screen bg-[#0B0C10] text-[#F8F9FA] cursor-default">
@@ -390,7 +470,7 @@ export default function HomePageClient({
       </section>
 
       {/* ── Trending Horizontal Carousel ── */}
-      <TrendingCarousel products={carouselProducts} />
+      <TrendingCarousel products={featuredProducts} />
 
       {/* ── Divider ── */}
       <div className="max-w-7xl mx-auto px-6 md:px-12">

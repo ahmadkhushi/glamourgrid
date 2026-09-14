@@ -9,11 +9,13 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const category = searchParams.get('category');
   const sale = searchParams.get('sale') === 'true';
+  const featured = searchParams.get('featured') === 'true';
   const limit = parseInt(searchParams.get('limit') || '50');
 
   const where: Record<string, unknown> = { isActive: true };
   if (category) where.category = { slug: category };
   if (sale) where.isSale = true;
+  if (featured) where.isFeatured = true;
 
   try {
     const products = await prisma.product.findMany({
@@ -76,6 +78,7 @@ export async function POST(request: NextRequest) {
         isNewArrival: productData.isNewArrival ?? false,
         isBestSeller: productData.isBestSeller ?? false,
         isSale: productData.isSale ?? false,
+        isFeatured: productData.isFeatured ?? false,
         ...(categoryId ? { categoryId } : {}),
       },
     });

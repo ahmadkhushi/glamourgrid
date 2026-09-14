@@ -55,6 +55,7 @@ export async function PATCH(
     if (updateData.price !== undefined) updateData.price = parseFloat(updateData.price);
     if (updateData.salePrice !== undefined) updateData.salePrice = updateData.salePrice ? parseFloat(updateData.salePrice) : null;
     if (updateData.stock !== undefined) updateData.stock = parseInt(updateData.stock);
+    if (updateData.isFeatured !== undefined) updateData.isFeatured = Boolean(updateData.isFeatured);
     if (updateData.colors !== undefined) {
       if (typeof updateData.colors === 'string') {
         try {

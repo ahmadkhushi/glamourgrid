@@ -37,6 +37,7 @@ interface FormState {
   isNewArrival: boolean;
   isBestSeller: boolean;
   isSale: boolean;
+  isFeatured: boolean;
 }
 
 export default function NewProductPage() {
@@ -49,6 +50,7 @@ export default function NewProductPage() {
     imageUrl: '', videoUrl: '', brand: '', categorySlug: 'fragrance',
     stock: '100',
     isActive: true, isNewArrival: false, isBestSeller: false, isSale: false,
+    isFeatured: false,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -78,6 +80,7 @@ export default function NewProductPage() {
         isNewArrival: form.isNewArrival,
         isBestSeller: form.isBestSeller,
         isSale: form.isSale,
+        isFeatured: form.isFeatured,
       }),
     });
     setSaving(false);
@@ -193,18 +196,19 @@ export default function NewProductPage() {
           {/* Toggles */}
           <div>
             <label className="block text-[10px] uppercase tracking-[0.2em] text-[#a89f91] mb-3">Product Flags</label>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
               {([
                 ['isActive', 'Active', '🟢'],
+                ['isFeatured', 'Side-Scroll', '★'],
                 ['isNewArrival', 'New Arrival', '✨'],
                 ['isBestSeller', 'Best Seller', '⭐'],
                 ['isSale', 'On Sale 🔴', '🏷️'],
               ] as [keyof FormState, string, string][]).map(([key, label, icon]) => (
-                <label key={key} className={`flex items-center gap-3 cursor-pointer border p-3 transition-colors ${form[key] ? 'border-[#d4af37]/40 bg-[#d4af37]/5' : 'border-[#2a2018]'}`}>
+                <label key={key} className={`flex items-center gap-3 cursor-pointer border p-3 transition-colors ${form[key] ? 'border-[#d4af37]/40 bg-[#d4af37]/10 text-[#d4af37]' : 'border-[#2a2018]'}`}>
                   <input type="checkbox" checked={Boolean(form[key])}
                     onChange={(e) => f(key, e.target.checked)}
                     className="w-4 h-4 accent-[#d4af37]" />
-                  <span className="text-sm text-[#a89f91]">{icon} {label}</span>
+                  <span className="text-xs sm:text-sm text-[#a89f91]">{icon} {label}</span>
                 </label>
               ))}
             </div>

@@ -50,6 +50,7 @@ model Product {
   isNewArrival Boolean   @default(false)
   isBestSeller Boolean   @default(false)
   isSale       Boolean   @default(false)
+  isFeatured   Boolean   @default(false) // inSideScroll / Featured in horizontal carousel
   stock        Int       @default(100)
   colors       Json?     // Array of { name: string, hex: string, inStock?: boolean }
   keywords     String?   // SEO tags / search keywords comma-separated
