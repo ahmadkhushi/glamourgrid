@@ -154,7 +154,6 @@ export default function HomePageClient({
   };
 
   return (
-  return (
     <div className="min-h-screen bg-[#0B0C10] text-[#F8F9FA] cursor-default">
       <Navbar />
 
