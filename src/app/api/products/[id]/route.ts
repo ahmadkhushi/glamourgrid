@@ -1,6 +1,8 @@
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/session';
 
@@ -25,13 +27,16 @@ export async function GET(
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
 
-    return NextResponse.json(product);
+    return NextResponse.json(product, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      },
+    });
   } catch (error: any) {
     console.error('Fetch product error:', error);
     return NextResponse.json({ error: 'Failed to fetch product', details: error?.message }, { status: 500 });
   }
 }
-
 
 export async function PATCH(
   request: NextRequest,
@@ -63,7 +68,26 @@ export async function PATCH(
       data: updateData,
     });
 
-    return NextResponse.json(updated);
+    // On-Demand Revalidation across all product pages
+    try {
+      revalidatePath('/');
+      revalidatePath('/products');
+      revalidatePath('/admin');
+      revalidatePath('/admin/products');
+      revalidatePath('/shop');
+      if (updated.slug) {
+        revalidatePath(`/products/${updated.slug}`);
+        revalidatePath(`/product/${updated.slug}`);
+      }
+    } catch (revErr) {
+      console.error('Revalidation error on product update:', revErr);
+    }
+
+    return NextResponse.json(updated, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      },
+    });
   } catch (error: any) {
     console.error('Update product error:', error);
     return NextResponse.json({ error: 'Failed to update product', details: error?.message }, { status: 500 });
@@ -82,7 +106,23 @@ export async function DELETE(
 
     const { id } = await params;
     await db.product.delete({ where: { id: parseInt(id) } });
-    return NextResponse.json({ success: true });
+
+    // On-Demand Revalidation across all affected pages
+    try {
+      revalidatePath('/');
+      revalidatePath('/products');
+      revalidatePath('/admin');
+      revalidatePath('/admin/products');
+      revalidatePath('/shop');
+    } catch (revErr) {
+      console.error('Revalidation error on product delete:', revErr);
+    }
+
+    return NextResponse.json({ success: true }, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      },
+    });
   } catch (error: any) {
     return NextResponse.json({ error: 'Failed to delete product', details: error?.message }, { status: 500 });
   }

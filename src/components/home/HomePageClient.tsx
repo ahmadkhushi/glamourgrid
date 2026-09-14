@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ImageLightbox from "@/components/ui/ImageLightbox";
@@ -25,8 +25,8 @@ const DEFAULT_PRODUCTS: Product[] = [
     id: 1,
     name: "Azzaro Wanted Elixir",
     description: "Intense woody oriental elixir with passionfruit & leather notes.",
-    price: 15500,
-    originalPrice: 19500,
+    price: 990,
+    originalPrice: 1200,
     category: "fragrance",
     imageUrl: "/perfume-banner.jpg",
     videoUrl: null,
@@ -34,80 +34,80 @@ const DEFAULT_PRODUCTS: Product[] = [
   },
   {
     id: 2,
+    name: "Versace Man Eau Fraîche",
+    description: "A fresh, vibrant and masculine fragrance that energizes your senses.",
+    price: 950,
+    originalPrice: 1150,
+    category: "fragrance",
+    imageUrl: "/versace-fragrance.jpg",
+    videoUrl: null,
+    stock: 15,
+  },
+  {
+    id: 3,
+    name: "Nebli Eyeliner Pen - Rose Gold",
+    description: "24H all day wear waterproof eyeliner pen with intense black pigment.",
+    price: 750,
+    originalPrice: 900,
+    category: "mascara",
+    imageUrl: "/eyeliner-rosegold.jpg",
+    videoUrl: null,
+    stock: 20,
+  },
+  {
+    id: 4,
+    name: "Nebli Eyeliner Pen - Blue Crane",
+    description: "24H smudge-proof & water-resistant 0.1mm fine tip eyeliner pen.",
+    price: 850,
+    originalPrice: 1000,
+    category: "mascara",
+    imageUrl: "/eyeliner-blue.jpg",
+    videoUrl: null,
+    stock: 18,
+  },
+  {
+    id: 5,
+    name: "HudaFashion Mini Makeup Brush Set",
+    description: "3-piece ultra-soft powder, foundation & concealer travel brush set.",
+    price: 650,
+    originalPrice: 800,
+    category: "makeup-brushes",
+    imageUrl: "/huda-brush-set.jpg",
+    videoUrl: null,
+    stock: 25,
+  },
+  {
+    id: 6,
     name: "Matte Liquid Lipstick",
     description: "Velvety smooth long-wear matte formula in rich rose-gold hue.",
-    price: 3000,
-    originalPrice: 3800,
+    price: 600,
+    originalPrice: 750,
     category: "lipsticks",
     imageUrl: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?q=80&w=800&auto=format&fit=crop",
     videoUrl: null,
     stock: 18,
   },
   {
-    id: 3,
+    id: 7,
     name: "Rosemary Hair & Scalp Oil",
     description: "Organic nutrient-dense botanical oil for hair thickness and vitality.",
-    price: 2000,
-    originalPrice: 2500,
+    price: 550,
+    originalPrice: 700,
     category: "skincare",
     imageUrl: "https://images.unsplash.com/photo-1608248597263-00079e96047c?q=80&w=800&auto=format&fit=crop",
     videoUrl: null,
     stock: 25,
   },
   {
-    id: 4,
+    id: 8,
     name: "Silk Press Face Powder",
     description: "Micro-milled pore-blurring translucent setting powder.",
-    price: 4750,
-    originalPrice: 5900,
+    price: 700,
+    originalPrice: 850,
     category: "face-powder",
     imageUrl: "https://images.unsplash.com/photo-1590156546946-ce55a12a6a5d?q=80&w=800&auto=format&fit=crop",
     videoUrl: null,
     stock: 14,
-  },
-  {
-    id: 5,
-    name: "Luxe Mink Eye Lashes",
-    description: "Handcrafted 3D mink eyelashes for dramatic red-carpet eyes.",
-    price: 2400,
-    originalPrice: 3200,
-    category: "eye-lashes",
-    imageUrl: "https://images.unsplash.com/photo-1583001931096-959e9a1a6223?q=80&w=800&auto=format&fit=crop",
-    videoUrl: null,
-    stock: 30,
-  },
-  {
-    id: 6,
-    name: "Hyper-Length Mascara",
-    description: "Waterproof intense black lengthening & volumizing mascara.",
-    price: 3200,
-    originalPrice: 4100,
-    category: "mascara",
-    imageUrl: "https://images.unsplash.com/photo-1560700146-eb0058b73f88?q=80&w=800&auto=format&fit=crop",
-    videoUrl: null,
-    stock: 22,
-  },
-  {
-    id: 7,
-    name: "Glow BB Cream SPF 40",
-    description: "Lightweight tone-correcting moisturizer with broad spectrum SPF.",
-    price: 3900,
-    originalPrice: 4800,
-    category: "bb-cream",
-    imageUrl: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=800&auto=format&fit=crop",
-    videoUrl: null,
-    stock: 15,
-  },
-  {
-    id: 8,
-    name: "Master Makeup Brush Set",
-    description: "12-piece synthetic ultra-soft professional face & eye brush set.",
-    price: 6800,
-    originalPrice: 8500,
-    category: "makeup-brushes",
-    imageUrl: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=800&auto=format&fit=crop",
-    videoUrl: null,
-    stock: 12,
   },
 ];
 
@@ -121,6 +121,12 @@ export default function HomePageClient({
   const [products, setProducts] = useState<Product[]>(
     initialProducts && initialProducts.length > 0 ? initialProducts : DEFAULT_PRODUCTS
   );
+
+  useEffect(() => {
+    if (initialProducts && initialProducts.length > 0) {
+      setProducts(initialProducts);
+    }
+  }, [initialProducts]);
   const [activeMedia, setActiveMedia] = useState<{
     type: "image" | "video";
     url: string;

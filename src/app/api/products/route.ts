@@ -1,8 +1,9 @@
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
-
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -25,9 +26,17 @@ export async function GET(request: NextRequest) {
       take: limit,
     });
 
-    return NextResponse.json(products);
+    return NextResponse.json(products, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      },
+    });
   } catch {
-    return NextResponse.json([]);
+    return NextResponse.json([], {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      },
+    });
   }
 }
 
@@ -70,7 +79,28 @@ export async function POST(request: NextRequest) {
         ...(categoryId ? { categoryId } : {}),
       },
     });
-    return NextResponse.json(product, { status: 201 });
+
+    // On-Demand Revalidation across all affected pages
+    try {
+      revalidatePath('/');
+      revalidatePath('/products');
+      revalidatePath('/admin');
+      revalidatePath('/admin/products');
+      revalidatePath('/shop');
+      if (product.slug) {
+        revalidatePath(`/products/${product.slug}`);
+        revalidatePath(`/product/${product.slug}`);
+      }
+    } catch (revErr) {
+      console.error('Revalidation error on product creation:', revErr);
+    }
+
+    return NextResponse.json(product, {
+      status: 201,
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      },
+    });
   } catch (err: any) {
     const msg = err?.message ?? 'Server error';
     if (msg.includes('Unique constraint')) {

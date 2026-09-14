@@ -1,10 +1,11 @@
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SalePageClient from "./SalePageClient";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
-
-export const revalidate = 0;
 
 export default async function SalePage() {
   const session = await getSession();

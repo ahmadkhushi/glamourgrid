@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 import { prisma } from '@/lib/prisma';
 import { logoutAction } from '@/lib/auth-actions';
 import Link from 'next/link';

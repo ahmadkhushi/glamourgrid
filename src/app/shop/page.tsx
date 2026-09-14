@@ -1,7 +1,8 @@
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 import { prisma } from '@/lib/prisma';
 import ProductCard from '@/components/shop/ProductCard';
-
-export const revalidate = 0;
 
 export default async function ShopPage() {
   let products: any[] = [];

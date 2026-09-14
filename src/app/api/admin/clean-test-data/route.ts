@@ -1,4 +1,8 @@
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/session';
 
@@ -16,6 +20,14 @@ export async function POST() {
     
     // Clear all orders
     await db.order.deleteMany({});
+
+    try {
+      revalidatePath('/admin');
+      revalidatePath('/admin/analytics');
+      revalidatePath('/admin/orders');
+    } catch (e) {
+      console.error('Revalidation error:', e);
+    }
 
     return NextResponse.json({
       success: true,
