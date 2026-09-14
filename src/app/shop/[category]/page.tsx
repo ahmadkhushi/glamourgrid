@@ -27,16 +27,16 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   }
 
   return (
-    <div className="pt-24 min-h-screen bg-[#0f0c08] text-[#FDFBF7]">
+    <div className="pt-24 min-h-screen bg-[#0B0C10] text-[#F8F9FA]">
       <div className="container mx-auto px-4 md:px-8 py-12">
-        <h1 className="text-4xl font-serif text-[#d4af37] mb-4 text-center tracking-wide">{categoryName}</h1>
-        <p className="text-center text-[#a89f91] mb-12">{categoryDesc}</p>
+        <h1 className="text-4xl font-serif text-[#D4AF37] mb-4 text-center tracking-wide">{categoryName}</h1>
+        <p className="text-center text-[#9CA3AF] mb-12">{categoryDesc}</p>
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 md:gap-8">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
           {products.length === 0 && (
-            <div className="col-span-full text-center text-[#a89f91] py-12">
+            <div className="col-span-full text-center text-[#9CA3AF] py-12">
               No products found in this category.
             </div>
           )}

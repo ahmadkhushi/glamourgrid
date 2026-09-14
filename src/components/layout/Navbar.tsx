@@ -77,13 +77,14 @@ export default function Navbar() {
   return (
     <>
       {/* ── Social Top Bar ─────────────────────────────────── */}
-      <div className="w-full bg-[#0a0805] border-b border-[#2a2018] py-1.5 px-6 hidden md:flex items-center justify-between">
-        <p className="text-[10px] uppercase tracking-[0.2em] text-[#a89f91]">
+      {/* ── Social Top Bar ─────────────────────────────────── */}
+      <div className="w-full bg-[#07080A] border-b border-white/10 py-1.5 px-6 hidden md:flex items-center justify-between">
+        <p className="text-[10px] uppercase tracking-[0.2em] text-[#9CA3AF]">
           Free shipping on orders over Rs. 2,500
         </p>
         <div className="flex items-center gap-4">
           {isAdmin && (
-            <span className="text-[10px] uppercase tracking-widest text-[#d4af37] border border-[#d4af37]/40 px-2 py-0.5 rounded-sm">
+            <span className="text-[10px] uppercase tracking-widest text-[#D4AF37] border border-[#D4AF37]/40 px-2 py-0.5 rounded-sm">
               Admin Mode
             </span>
           )}
@@ -92,7 +93,7 @@ export default function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"
-            className="text-[#a89f91] hover:text-[#d4af37] transition-colors duration-300"
+            className="text-[#9CA3AF] hover:text-[#D4AF37] transition-colors duration-300"
           >
             <InstagramIcon />
           </a>
@@ -101,7 +102,7 @@ export default function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Facebook"
-            className="text-[#a89f91] hover:text-[#d4af37] transition-colors duration-300"
+            className="text-[#9CA3AF] hover:text-[#D4AF37] transition-colors duration-300"
           >
             <FacebookIcon />
           </a>
@@ -110,14 +111,14 @@ export default function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="WhatsApp"
-            className="text-[#a89f91] hover:text-[#d4af37] transition-colors duration-300"
+            className="text-[#9CA3AF] hover:text-[#D4AF37] transition-colors duration-300"
           >
             <WhatsAppIcon />
           </a>
           <a
             href="mailto:glomourgrid32@gmail.com"
             aria-label="Email"
-            className="text-[#a89f91] hover:text-[#d4af37] transition-colors duration-300"
+            className="text-[#9CA3AF] hover:text-[#D4AF37] transition-colors duration-300"
           >
             <EmailIcon />
           </a>
@@ -128,7 +129,7 @@ export default function Navbar() {
       <header
         className={`fixed top-0 w-full z-40 transition-all duration-500 ${
           isScrolled
-            ? "bg-[#0f0c08]/95 backdrop-blur-md py-4 border-b border-[#2a2018] mt-0"
+            ? "bg-[#0B0C10]/95 backdrop-blur-md py-4 border-b border-white/10 mt-0 shadow-lg"
             : "bg-transparent py-6 mt-8"
         }`}
       >
@@ -136,7 +137,7 @@ export default function Navbar() {
 
           {/* Mobile: Hamburger */}
           <button
-            className="md:hidden text-[#d4af37] p-1"
+            className="md:hidden text-[#D4AF37] p-1"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle Menu"
           >
@@ -146,7 +147,7 @@ export default function Navbar() {
           {/* Logo — 5 clicks = admin modal */}
           <button
             onClick={handleLogoClick}
-            className="text-xl md:text-2xl font-serif text-[#d4af37] tracking-[0.2em] hover:opacity-80 transition-opacity"
+            className="text-xl md:text-2xl font-serif text-[#D4AF37] tracking-[0.2em] hover:opacity-85 transition-opacity"
           >
             GLAMOURGRID
           </button>
@@ -155,7 +156,7 @@ export default function Navbar() {
           <nav className="hidden md:flex items-center gap-8">
             <Link
               href="/shop"
-              className="nav-link text-[11px] uppercase tracking-[0.2em] text-[#a89f91] hover:text-[#d4af37] transition-colors duration-300"
+              className="nav-link text-[11px] uppercase tracking-[0.2em] text-[#9CA3AF] hover:text-[#D4AF37] transition-colors duration-300"
             >
               Shop
             </Link>
@@ -164,14 +165,14 @@ export default function Navbar() {
             <div className="relative group">
               <Link
                 href="/shop/makeup"
-                className="nav-link text-[11px] uppercase tracking-[0.2em] text-[#a89f91] group-hover:text-[#d4af37] transition-colors duration-300 py-2 inline-flex items-center gap-1"
+                className="nav-link text-[11px] uppercase tracking-[0.2em] text-[#9CA3AF] group-hover:text-[#D4AF37] transition-colors duration-300 py-2 inline-flex items-center gap-1"
               >
                 Makeup
                 <span className="text-[9px] opacity-60 transition-transform group-hover:rotate-180">▼</span>
               </Link>
 
               {/* Dropdown Menu */}
-              <div className="absolute top-full left-0 mt-1 w-64 bg-[#140f0a] border border-[#d4af37]/30 shadow-2xl rounded-sm p-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 grid grid-cols-1 gap-1">
+              <div className="absolute top-full left-0 mt-1 w-64 bg-[#121316]/95 backdrop-blur-md border border-white/10 shadow-2xl rounded-lg p-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 grid grid-cols-1 gap-1">
                 {[
                   { name: "Eye Lashes", href: "/shop/makeup/eye-lashes" },
                   { name: "Mascara", href: "/shop/makeup/mascara" },
@@ -188,10 +189,10 @@ export default function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="text-xs text-[#a89f91] hover:text-[#d4af37] hover:bg-[#1f1710] px-3 py-2 rounded transition-colors duration-200 tracking-wider flex items-center justify-between"
+                    className="text-xs text-[#9CA3AF] hover:text-[#D4AF37] hover:bg-white/5 px-3 py-2 rounded transition-colors duration-200 tracking-wider flex items-center justify-between"
                   >
                     <span>{item.name}</span>
-                    <span className="text-[10px] text-[#d4af37]/40">→</span>
+                    <span className="text-[10px] text-[#D4AF37]/50">→</span>
                   </Link>
                 ))}
               </div>
@@ -199,57 +200,56 @@ export default function Navbar() {
 
             <Link
               href="/shop/skincare"
-              className="nav-link text-[11px] uppercase tracking-[0.2em] text-[#a89f91] hover:text-[#d4af37] transition-colors duration-300"
+              className="nav-link text-[11px] uppercase tracking-[0.2em] text-[#9CA3AF] hover:text-[#D4AF37] transition-colors duration-300"
             >
               Skincare
             </Link>
 
             <Link
               href="/shop?sort=newest"
-              className="nav-link text-[11px] uppercase tracking-[0.2em] text-[#a89f91] hover:text-[#d4af37] transition-colors duration-300"
+              className="nav-link text-[11px] uppercase tracking-[0.2em] text-[#9CA3AF] hover:text-[#D4AF37] transition-colors duration-300"
             >
               New Arrivals
             </Link>
 
             <Link
               href="/track-order"
-              className="nav-link text-[11px] uppercase tracking-[0.2em] text-[#a89f91] hover:text-[#d4af37] transition-colors duration-300"
+              className="nav-link text-[11px] uppercase tracking-[0.2em] text-[#9CA3AF] hover:text-[#D4AF37] transition-colors duration-300"
             >
               Track Order
             </Link>
 
             <Link
               href="/about"
-              className="nav-link text-[11px] uppercase tracking-[0.2em] text-[#a89f91] hover:text-[#d4af37] transition-colors duration-300"
+              className="nav-link text-[11px] uppercase tracking-[0.2em] text-[#9CA3AF] hover:text-[#D4AF37] transition-colors duration-300"
             >
               About
             </Link>
 
-
             {/* Sale link — red highlight */}
             <Link
               href="/sale"
-              className="nav-link text-[11px] uppercase tracking-[0.2em] text-red-400 hover:text-red-300 transition-colors duration-300 font-bold"
+              className="nav-link text-[11px] uppercase tracking-[0.2em] text-[#B07F6D] hover:text-[#D4AF37] transition-colors duration-300 font-bold"
             >
-              🔴 Sale
+              ✦ Sale
             </Link>
           </nav>
 
           {/* Icons */}
           <div className="flex items-center gap-5">
-            <button className="hidden md:block text-[#a89f91] hover:text-[#d4af37] transition-colors duration-300" aria-label="Search">
+            <button className="hidden md:block text-[#9CA3AF] hover:text-[#D4AF37] transition-colors duration-300" aria-label="Search">
               <Search size={18} />
             </button>
-            <Link href="/orders" className="hidden md:block text-[#a89f91] hover:text-[#d4af37] transition-colors duration-300" aria-label="My Orders">
+            <Link href="/orders" className="hidden md:block text-[#9CA3AF] hover:text-[#D4AF37] transition-colors duration-300" aria-label="My Orders">
               <User size={18} />
             </Link>
-            <Link href="/wishlist" className="hidden md:block text-[#a89f91] hover:text-[#d4af37] transition-colors duration-300" aria-label="Wishlist">
+            <Link href="/wishlist" className="hidden md:block text-[#9CA3AF] hover:text-[#D4AF37] transition-colors duration-300" aria-label="Wishlist">
               <Heart size={18} />
             </Link>
-            <Link href="/cart" className="relative text-[#a89f91] hover:text-[#d4af37] transition-colors duration-300" aria-label="Cart">
+            <Link href="/cart" className="relative text-[#9CA3AF] hover:text-[#D4AF37] transition-colors duration-300" aria-label="Cart">
               <ShoppingCart size={18} />
               {cartItems.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#d4af37] text-[#0f0c08] text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center leading-none">
+                <span className="absolute -top-2 -right-2 bg-[#D4AF37] text-[#0B0C10] text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center leading-none">
                   {cartItems.length}
                 </span>
               )}
@@ -260,7 +260,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 z-30 bg-[#0f0c08] flex flex-col pt-24 px-8 overflow-y-auto max-h-screen pb-12 transition-all duration-500 md:hidden ${
+        className={`fixed inset-0 z-30 bg-[#0B0C10] flex flex-col pt-24 px-8 overflow-y-auto max-h-screen pb-12 transition-all duration-500 md:hidden ${
           isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
@@ -272,32 +272,31 @@ export default function Navbar() {
             { label: "Fragrance", href: "/shop/fragrance" },
             { label: "New Arrivals", href: "/shop?sort=newest" },
             { label: "Track Order 📦", href: "/track-order" },
-            { label: "🔴 Sale", href: "/sale" },
+            { label: "✦ Sale", href: "/sale" },
             { label: "About", href: "/about" },
-
           ].map(({ label, href }) => (
             <Link
               key={href}
               href={href}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-2xl font-serif text-[#FDFBF7] hover:text-[#d4af37] transition-colors border-b border-[#2a2018] pb-6"
+              className="text-2xl font-serif text-[#F8F9FA] hover:text-[#D4AF37] transition-colors border-b border-white/10 pb-6"
             >
               {label}
             </Link>
           ))}
         </nav>
         {/* Mobile social icons */}
-        <div className="mt-10 flex gap-6 text-[#a89f91]">
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#d4af37] transition-colors"><InstagramIcon /></a>
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#d4af37] transition-colors"><FacebookIcon /></a>
-          <a href="https://wa.me/923299400067?text=Hello%20GlamourGrid" target="_blank" rel="noopener noreferrer" className="hover:text-[#d4af37] transition-colors"><WhatsAppIcon /></a>
-          <a href="mailto:glomourgrid32@gmail.com" aria-label="Email" className="hover:text-[#d4af37] transition-colors"><EmailIcon /></a>
+        <div className="mt-10 flex gap-6 text-[#9CA3AF]">
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#D4AF37] transition-colors"><InstagramIcon /></a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#D4AF37] transition-colors"><FacebookIcon /></a>
+          <a href="https://wa.me/923299400067?text=Hello%20GlamourGrid" target="_blank" rel="noopener noreferrer" className="hover:text-[#D4AF37] transition-colors"><WhatsAppIcon /></a>
+          <a href="mailto:glomourgrid32@gmail.com" aria-label="Email" className="hover:text-[#D4AF37] transition-colors"><EmailIcon /></a>
         </div>
         <div className="mt-8 flex gap-8">
-          <Link href="/orders" onClick={() => setIsMobileMenuOpen(false)} className="text-[#a89f91] hover:text-[#d4af37] flex items-center gap-2 text-sm uppercase tracking-widest">
+          <Link href="/orders" onClick={() => setIsMobileMenuOpen(false)} className="text-[#9CA3AF] hover:text-[#D4AF37] flex items-center gap-2 text-sm uppercase tracking-widest">
             <User size={16} /> My Orders
           </Link>
-          <Link href="/cart" onClick={() => setIsMobileMenuOpen(false)} className="text-[#a89f91] hover:text-[#d4af37] flex items-center gap-2 text-sm uppercase tracking-widest">
+          <Link href="/cart" onClick={() => setIsMobileMenuOpen(false)} className="text-[#9CA3AF] hover:text-[#D4AF37] flex items-center gap-2 text-sm uppercase tracking-widest">
             <ShoppingCart size={16} /> Cart
           </Link>
         </div>
@@ -305,12 +304,12 @@ export default function Navbar() {
 
       {/* ── Admin Password Modal ───────────────────────────── */}
       {showAdminModal && (
-        <div className="fixed inset-0 z-[9998] bg-black/80 backdrop-blur-sm flex items-center justify-center px-4">
-          <div className="bg-[#16100a] border border-[#d4af37]/30 p-8 w-full max-w-sm">
-            <h2 className="text-[#d4af37] font-serif text-xl mb-2 tracking-widest text-center">
+        <div className="fixed inset-0 z-[9998] bg-black/80 backdrop-blur-md flex items-center justify-center px-4">
+          <div className="bg-[#121316] border border-[#D4AF37]/30 p-8 w-full max-w-sm rounded-xl shadow-2xl">
+            <h2 className="text-[#D4AF37] font-serif text-xl mb-2 tracking-widest text-center">
               {isAdmin ? "Admin Mode Deactivate?" : "Admin Access"}
             </h2>
-            <p className="text-[#a89f91] text-xs text-center mb-6 tracking-wider">
+            <p className="text-[#9CA3AF] text-xs text-center mb-6 tracking-wider">
               {isAdmin
                 ? "You are in admin mode. Enter password to deactivate."
                 : "Enter password to access admin panel."}
@@ -319,24 +318,23 @@ export default function Navbar() {
               <input
                 type="password"
                 placeholder="Enter password..."
-
                 value={adminInput}
                 onChange={(e) => { setAdminInput(e.target.value); setAdminError(""); }}
-                className="bg-[#0f0c08] border border-[#2a2018] text-[#FDFBF7] px-4 py-3 text-sm w-full focus:outline-none focus:border-[#d4af37]/50"
+                className="bg-[#0B0C10] border border-white/10 text-[#F8F9FA] px-4 py-3 text-sm w-full rounded focus:outline-none focus:border-[#D4AF37]/50"
                 autoFocus
               />
               {adminError && <p className="text-red-400 text-xs">{adminError}</p>}
               <div className="flex gap-3">
                 <button
                   type="submit"
-                  className="flex-1 bg-[#d4af37] text-[#0f0c08] py-3 text-sm font-semibold tracking-widest uppercase hover:bg-[#e8c84a] transition-colors"
+                  className="flex-1 bg-[#D4AF37] text-[#0B0C10] py-3 text-sm font-semibold tracking-widest uppercase hover:bg-[#E6CA65] transition-colors rounded"
                 >
                   Confirm
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowAdminModal(false)}
-                  className="flex-1 border border-[#2a2018] text-[#a89f91] py-3 text-sm uppercase tracking-widest hover:border-[#d4af37]/30 transition-colors"
+                  className="flex-1 border border-white/10 text-[#9CA3AF] py-3 text-sm uppercase tracking-widest hover:border-[#D4AF37]/30 transition-colors rounded"
                 >
                   Cancel
                 </button>

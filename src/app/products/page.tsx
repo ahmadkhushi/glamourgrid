@@ -82,14 +82,14 @@ export default async function ProductsPage() {
   return (
     <>
       <Navbar />
-      <div className="pt-28 min-h-screen bg-[#0f0c08] text-[#FDFBF7]">
+      <div className="pt-28 min-h-screen bg-[#0B0C10] text-[#F8F9FA]">
         <div className="container mx-auto px-4 md:px-8 py-12">
           <div className="text-center max-w-xl mx-auto mb-10">
-            <span className="text-[10px] uppercase tracking-[0.3em] text-[#d4af37] border border-[#d4af37]/30 px-3 py-1 rounded-full">
+            <span className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] border border-[#D4AF37]/30 px-3 py-1 rounded-full">
               Full Catalog
             </span>
-            <h1 className="text-4xl md:text-5xl font-serif text-[#d4af37] mt-3 tracking-wider">All Products</h1>
-            <div className="w-12 h-0.5 bg-[#d4af37] mx-auto mt-4" />
+            <h1 className="text-4xl md:text-5xl font-serif text-[#D4AF37] mt-3 tracking-wider">All Products</h1>
+            <div className="w-12 h-0.5 bg-[#D4AF37] mx-auto mt-4" />
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 md:gap-8">
             {products.map((product) => (

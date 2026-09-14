@@ -154,10 +154,11 @@ export default function HomePageClient({
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0c08] text-[#FDFBF7] cursor-default">
+  return (
+    <div className="min-h-screen bg-[#0B0C10] text-[#F8F9FA] cursor-default">
       <Navbar />
 
-      {/* Cinematic Hero Video Cover Page — Intact Cursor Fix */}
+      {/* Cinematic Hero Video Cover Page */}
       <section className="relative h-screen w-full flex items-center justify-center text-center overflow-hidden bg-black cursor-default">
         {/* Video (Z-0, pointer-events-none) */}
         <video
@@ -171,23 +172,23 @@ export default function HomePageClient({
         </video>
 
         {/* Overlay (Z-10, pointer-events-none) */}
-        <div className="absolute inset-0 bg-black/50 z-10 pointer-events-none select-none" />
+        <div className="absolute inset-0 bg-black/60 z-10 pointer-events-none select-none" />
 
         {/* Hero Content (Z-20) */}
         <div className="relative z-20 px-6 max-w-4xl text-white">
-          <span className="inline-block text-[11px] uppercase tracking-[0.3em] text-[#d4af37] border border-[#d4af37]/40 px-4 py-1.5 rounded-full mb-6 bg-black/40 backdrop-blur-sm">
+          <span className="inline-block text-[11px] uppercase tracking-[0.35em] text-[#D4AF37] border border-[#D4AF37]/40 px-4 py-1.5 rounded-full mb-6 bg-black/50 backdrop-blur-md">
             Haute Parfumerie & Cosmetics
           </span>
-          <h1 className="text-2xl sm:text-4xl md:text-7xl font-serif tracking-tight mb-6 uppercase text-[#FDFBF7] drop-shadow-2xl leading-tight">
+          <h1 className="text-2xl sm:text-4xl md:text-7xl font-serif tracking-tight mb-6 uppercase text-[#F8F9FA] drop-shadow-2xl leading-tight">
             Iconic Scent. <br />
-            <span className="italic font-serif lowercase text-[#d4af37]">one</span> Unforgettable You.
+            <span className="italic font-serif lowercase text-[#D4AF37]">one</span> Unforgettable You.
           </h1>
-          <p className="text-sm md:text-lg text-[#a89f91] mb-10 font-light tracking-widest max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm md:text-lg text-[#9CA3AF] mb-10 font-light tracking-widest max-w-2xl mx-auto leading-relaxed">
             Welcome to GlamourGrid — Redefining luxury cosmetics & fragrances.
           </p>
           <a
             href="#products"
-            className="inline-block px-10 py-4 bg-[#d4af37] text-[#0f0c08] font-bold uppercase tracking-[0.2em] text-xs hover:bg-white transition-all duration-300 shadow-2xl cursor-pointer"
+            className="inline-block px-10 py-4 bg-[#D4AF37] text-[#0B0C10] font-bold uppercase tracking-[0.2em] text-xs hover:bg-[#F8F9FA] transition-all duration-300 shadow-2xl cursor-pointer rounded-sm"
           >
             Explore Collection
           </a>
@@ -197,13 +198,13 @@ export default function HomePageClient({
       {/* Product Showcase Section */}
       <section id="products" className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="text-center max-w-xl mx-auto mb-16">
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#d4af37] border border-[#d4af37]/30 px-3 py-1 rounded-full">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] border border-[#D4AF37]/30 px-3 py-1 rounded-full">
             Curated Excellence
           </span>
-          <h2 className="text-3xl md:text-4xl font-serif text-[#FDFBF7] mt-3 tracking-wider">
+          <h2 className="text-3xl md:text-4xl font-serif text-[#F8F9FA] mt-3 tracking-wider">
             Latest Arrivals
           </h2>
-          <div className="w-12 h-0.5 bg-[#d4af37] mx-auto mt-4" />
+          <div className="w-12 h-0.5 bg-[#D4AF37] mx-auto mt-4" />
         </div>
 
         {/* Product Grid — 2 in a row on mobile */}
@@ -211,10 +212,10 @@ export default function HomePageClient({
           {products.map((product) => (
             <div
               key={product.id}
-              className="group relative bg-[#140f0a] border border-[#2a2018] hover:border-[#d4af37]/40 transition-all duration-500 rounded-sm overflow-hidden flex flex-col justify-between"
+              className="group relative bg-[#121316] border border-white/10 hover:border-[#D4AF37]/40 hover:shadow-[0_10px_35px_rgba(212,175,55,0.14)] transition-all duration-500 rounded-lg overflow-hidden flex flex-col justify-between"
             >
               {/* Media Box */}
-              <div className="relative h-64 w-full bg-[#0a0805] overflow-hidden">
+              <div className="relative h-64 w-full bg-[#07080A] overflow-hidden">
                 {(() => {
                   const mediaUrl = product.videoUrl || product.imageUrl || '';
                   const isVid = Boolean(product.videoUrl) || (typeof mediaUrl === 'string' && (
@@ -258,7 +259,7 @@ export default function HomePageClient({
                         title: product.name,
                       });
                     }}
-                    className="p-3 bg-[#d4af37] text-[#0f0c08] rounded-full hover:bg-white transition-colors shadow-xl cursor-pointer"
+                    className="p-3 bg-[#D4AF37] text-[#0B0C10] rounded-full hover:bg-white transition-colors shadow-xl cursor-pointer"
                     title="Explore Media"
                   >
                     {product.videoUrl || (product.imageUrl && product.imageUrl.toLowerCase().endsWith('.mp4')) ? <Play size={18} /> : <ZoomIn size={18} />}
@@ -269,24 +270,24 @@ export default function HomePageClient({
               {/* Content Box */}
               <div className="p-5 flex flex-col flex-1 justify-between">
                 <div>
-                  <span className="text-[10px] uppercase tracking-widest text-[#d4af37]/70 font-semibold">
+                  <span className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-semibold">
                     {product.category}
                   </span>
-                  <h3 className="font-serif text-lg text-[#FDFBF7] mt-1 mb-2 group-hover:text-[#d4af37] transition-colors">
+                  <h3 className="font-serif text-lg text-[#F8F9FA] mt-1 mb-2 group-hover:text-[#D4AF37] transition-colors">
                     {product.name}
                   </h3>
-                  <p className="text-xs text-[#a89f91] line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-[#9CA3AF] line-clamp-2 leading-relaxed">
                     {product.description}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-[#2a2018]/60 flex items-center justify-between">
+                <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
                   <div>
-                    <span className="text-lg font-semibold text-[#d4af37]">
+                    <span className="text-lg font-semibold text-[#D4AF37]">
                       Rs. {product.price.toLocaleString()}
                     </span>
                     {product.originalPrice && (
-                      <span className="text-xs text-[#a89f91] line-through ml-2">
+                      <span className="text-xs text-[#9CA3AF] line-through ml-2">
                         Rs. {product.originalPrice.toLocaleString()}
                       </span>
                     )}
@@ -305,7 +306,7 @@ export default function HomePageClient({
                       className={`p-2.5 rounded text-xs tracking-wider uppercase font-semibold transition-all duration-300 flex items-center gap-1.5 cursor-pointer ${
                         addedId === product.id
                           ? "bg-green-600 text-white"
-                          : "bg-[#d4af37] text-[#0f0c08] hover:bg-[#e8c84a]"
+                          : "bg-[#D4AF37] text-[#0B0C10] hover:bg-[#E6CA65]"
                       }`}
                     >
                       <ShoppingCart size={14} />

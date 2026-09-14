@@ -23,33 +23,33 @@ export default function ProductCard({ product }: { product: any }) {
 
   return (
     <motion.div
-      className="group relative flex flex-col bg-[#16100a] border border-[#2a2018] hover:border-[#d4af37]/30 transition-colors duration-500"
+      className="group relative flex flex-col bg-[#121316] border border-white/10 hover:border-[#D4AF37]/40 hover:shadow-[0_8px_30px_rgba(212,175,55,0.12)] transition-all duration-500 rounded-lg overflow-hidden"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.5 }}
     >
       {/* Badges */}
       <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
         {product.isNewArrival && (
-          <span className="bg-[#d4af37] text-[#0f0c08] text-[10px] font-bold tracking-widest uppercase px-2 py-1">
+          <span className="bg-[#D4AF37] text-[#0B0C10] text-[10px] font-bold tracking-widest uppercase px-2.5 py-0.5 rounded-sm shadow-sm">
             New
           </span>
         )}
         {product.isBestSeller && (
-          <span className="bg-[#0f0c08] text-[#d4af37] border border-[#d4af37] text-[10px] font-bold tracking-widest uppercase px-2 py-1">
+          <span className="bg-[#0B0C10]/90 backdrop-blur-sm text-[#D4AF37] border border-[#D4AF37]/60 text-[10px] font-bold tracking-widest uppercase px-2.5 py-0.5 rounded-sm">
             Best Seller
           </span>
         )}
       </div>
 
       {/* Wishlist */}
-      <button className="absolute top-3 right-3 z-10 text-[#a89f91] hover:text-[#d4af37] transition-colors p-1 opacity-0 group-hover:opacity-100 duration-300" aria-label="Add to Wishlist">
-        <Heart size={16} />
+      <button className="absolute top-3 right-3 z-10 text-[#9CA3AF] hover:text-[#D4AF37] transition-colors p-1.5 rounded-full bg-[#0B0C10]/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 duration-300" aria-label="Add to Wishlist">
+        <Heart size={15} />
       </button>
 
       {/* Media: Image or Video */}
-      <Link href={`/product/${product.slug}`} className="block overflow-hidden relative w-full h-[320px]">
+      <Link href={`/product/${product.slug}`} className="block overflow-hidden relative w-full h-[320px] bg-[#07080A]">
         {isVideo ? (
           <video
             src={mediaUrl}
@@ -77,9 +77,9 @@ export default function ProductCard({ product }: { product: any }) {
 
       {/* Info */}
       <div className="px-4 pt-4 pb-5 flex flex-col gap-1 flex-grow">
-        <p className="text-[10px] uppercase tracking-[0.2em] text-[#a89f91]">{product.brand}</p>
+        <p className="text-[10px] uppercase tracking-[0.2em] text-[#9CA3AF]">{product.brand}</p>
         <Link href={`/product/${product.slug}`}>
-          <h3 className="text-sm font-serif text-[#FDFBF7] hover:text-[#d4af37] transition-colors leading-snug">{product.name}</h3>
+          <h3 className="text-sm font-serif text-[#F8F9FA] hover:text-[#D4AF37] transition-colors leading-snug">{product.name}</h3>
         </Link>
         {product.colors && <ColorSwatches colors={product.colors} size="sm" />}
         {(() => {
@@ -91,14 +91,14 @@ export default function ProductCard({ product }: { product: any }) {
 
           return (
             <div className="flex items-center gap-1.5 my-1">
-              <div className="flex text-[#d4af37]">
+              <div className="flex text-[#D4AF37]">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <span key={star} className={star <= Math.round(avgRating) ? "text-[#d4af37]" : "text-[#3a2e22]"}>
+                  <span key={star} className={star <= Math.round(avgRating) ? "text-[#D4AF37]" : "text-[#22252E]"}>
                     ★
                   </span>
                 ))}
               </div>
-              <span className="text-[10px] text-[#a89f91] font-mono">
+              <span className="text-[10px] text-[#9CA3AF] font-mono">
                 {reviewCount > 0 ? `${avgRating.toFixed(1)} (${reviewCount})` : '5.0 (New)'}
               </span>
             </div>
@@ -108,22 +108,21 @@ export default function ProductCard({ product }: { product: any }) {
           <div className="flex items-center gap-2">
             {product.salePrice ? (
               <>
-                <span className="text-[#d4af37] font-semibold text-sm">Rs. {product.salePrice.toLocaleString()}</span>
-                <span className="text-[#a89f91] line-through text-xs">Rs. {product.price.toLocaleString()}</span>
+                <span className="text-[#D4AF37] font-semibold text-sm">Rs. {product.salePrice.toLocaleString()}</span>
+                <span className="text-[#9CA3AF] line-through text-xs">Rs. {product.price.toLocaleString()}</span>
               </>
             ) : (
-              <span className="text-[#d4af37] font-semibold text-sm">Rs. {product.price.toLocaleString()}</span>
+              <span className="text-[#D4AF37] font-semibold text-sm">Rs. {product.price.toLocaleString()}</span>
             )}
           </div>
         </div>
-
       </div>
 
       {/* Add to Cart */}
       <div className="overflow-hidden max-h-16 md:max-h-0 md:group-hover:max-h-16 transition-all duration-500 ease-in-out">
         <button
           onClick={() => addItem({ id: product.id, name: product.name, price: product.salePrice ?? product.price, image: mainImage, quantity: 1 })}
-          className="w-full py-3 bg-[#d4af37] text-[#0f0c08] text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-[#e8c84a] transition-colors duration-300"
+          className="w-full py-3 bg-[#D4AF37] text-[#0B0C10] text-[11px] font-semibold tracking-[0.2em] uppercase hover:bg-[#E6CA65] transition-colors duration-300"
         >
           Add to Cart
         </button>

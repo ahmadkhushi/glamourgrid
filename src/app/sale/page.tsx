@@ -80,17 +80,17 @@ export default async function SalePage() {
   }
 
   return (
-    <main className="bg-[#0f0c08] min-h-screen text-[#FDFBF7] pt-28">
+    <main className="bg-[#0B0C10] min-h-screen text-[#F8F9FA] pt-28">
       <Navbar />
       <div className="container mx-auto px-6 md:px-12 py-12">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#d4af37] border border-[#d4af37]/30 px-4 py-1 rounded-full">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] border border-[#D4AF37]/30 px-4 py-1 rounded-full">
             Limited Time Offers
           </span>
-          <h1 className="text-4xl md:text-5xl font-serif text-[#FDFBF7] mt-4 mb-4 tracking-wide">
-            Exclusive <span className="italic text-[#d4af37]">Sale</span> Collection
+          <h1 className="text-4xl md:text-5xl font-serif text-[#F8F9FA] mt-4 mb-4 tracking-wide">
+            Exclusive <span className="italic text-[#D4AF37]">Sale</span> Collection
           </h1>
-          <p className="text-[#a89f91] text-sm tracking-wider leading-relaxed">
+          <p className="text-[#9CA3AF] text-sm tracking-wider leading-relaxed">
             Up to 30% OFF on selected luxury cosmetics, fragrances & skincare. Premium quality guaranteed.
           </p>
         </div>

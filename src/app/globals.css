@@ -1,14 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #0f0c08;
-  --bg-secondary: #1a1208;
-  --bg-card: #16100a;
-  --gold: #d4af37;
-  --gold-light: #e8c84a;
-  --cream: #FDFBF7;
-  --text-muted: #a89f91;
-  --border: #2a2018;
+  --background: #0B0C10;
+  --foreground: #F8F9FA;
+  --bg-primary: #0B0C10;
+  --bg-secondary: #121316;
+  --bg-card: #16181F;
+  --bg-card-glass: rgba(18, 19, 22, 0.72);
+  --gold: #D4AF37;
+  --gold-light: #E6CA65;
+  --gold-hover: #DFBE52;
+  --rose-gold: #B07F6D;
+  --pearl: #F8F9FA;
+  --cream: #F8F9FA;
+  --text-primary: #F8F9FA;
+  --text-muted: #9CA3AF;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-gold: rgba(212, 175, 55, 0.35);
 }
 
 * {
@@ -21,7 +29,7 @@ html {
 
 body {
   background-color: var(--bg-primary);
-  color: var(--cream);
+  color: var(--pearl);
   font-family: var(--font-inter), system-ui, sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -36,14 +44,10 @@ body {
 }
 ::-webkit-scrollbar-thumb {
   background: var(--gold);
-  border-radius: 0;
+  border-radius: 3px;
 }
-
-/* Custom cursor for desktop */
-@media (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-light);
 }
 
 /* Selection color */
@@ -68,6 +72,22 @@ body {
 }
 .nav-link:hover::after {
   width: 100%;
+}
+
+/* Glassmorphism utilities */
+.glass-panel {
+  background: rgba(18, 19, 22, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-panel-gold {
+  background: rgba(18, 19, 22, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 
 /* Reduced motion */

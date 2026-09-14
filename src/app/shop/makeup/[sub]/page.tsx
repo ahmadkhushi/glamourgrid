@@ -280,15 +280,15 @@ export default async function MakeupSubPage({
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-[#0f0c08] pt-24">
+      <div className="min-h-screen bg-[#0B0C10] pt-24 text-[#F8F9FA]">
         {/* Hero Banner */}
-        <div className={`relative py-20 px-6 text-center bg-gradient-to-b ${meta.gradient} to-[#0f0c08] border-b border-[#2a2018]`}>
-          <Link href="/shop/makeup" className="text-[#a89f91] text-xs uppercase tracking-widest hover:text-[#d4af37] transition-colors inline-block mb-6">
+        <div className={`relative py-20 px-6 text-center bg-gradient-to-b ${meta.gradient} to-[#0B0C10] border-b border-white/10`}>
+          <Link href="/shop/makeup" className="text-[#9CA3AF] text-xs uppercase tracking-widest hover:text-[#D4AF37] transition-colors inline-block mb-6">
             ← Back to Makeup
           </Link>
           <div className="text-6xl mb-4">{meta.emoji}</div>
-          <h1 className="text-4xl md:text-6xl font-serif text-[#d4af37] tracking-widest mb-4">{meta.name.toUpperCase()}</h1>
-          <p className="text-[#a89f91] text-sm uppercase tracking-[0.2em] max-w-md mx-auto">{meta.description}</p>
+          <h1 className="text-4xl md:text-6xl font-serif text-[#D4AF37] tracking-widest mb-4">{meta.name.toUpperCase()}</h1>
+          <p className="text-[#9CA3AF] text-sm uppercase tracking-[0.2em] max-w-md mx-auto">{meta.description}</p>
         </div>
 
         {/* Products */}
